@@ -1,0 +1,825 @@
+\documentclass[article,shortnames,nojss]{jss}
+
+
+\usepackage{rotating , booktabs , latexsym , amsmath , graphicx,amssymb,amsfonts,mathrsfs,thumbpdf, subfigure, listings}
+%\usepackage[nogin]{Sweave}
+% Meta information - fill between {} and do not remove %
+% \VignetteIndexEntry{isocir: An R package for Isotonic Inference for Circular data}
+% \VignetteDepends{isocir}
+% \VignetteKeywords{Circular Data, Isotropic Order,CIRE, Conditional Test, R package isocir,R}
+% \VignettePackage{isotonic}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% declarations for jss.cls %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\SweaveOpts{engine=R, echo=T, eps=FALSE}
+
+\author{Sandra Barrag\'{a}n\\Universidad de Valladolid\And
+        Miguel A. Fern\'{a}ndez\\Universidad de Valladolid\AND
+        Cristina Rueda\\Universidad de Valladolid\And
+        Shyamal Das Peddada\\ National Institute of \\Environmental Health Sciences}
+\title{\pkg{isocir}: An \proglang{R} package for Isotonic Inference for Circular data. An application in Cell Biology.}
+
+%% for pretty printing and a nice hypersummary also set:
+\Plainauthor{Sandra Barrag\'{a}n, Miguel A. Fern\'{a}ndez, Cristina Rueda, Shyamal Das Peddada} %% comma-separated
+\Plaintitle{isocir: An R package for Isotonic inference in circular data. An application in Cell Biology.} %% without formatting
+\Shorttitle{\pkg{isocir}: An \proglang{R} package for Isotonic Inference in Circular data.} %% a short title (if necessary)
+
+%% an abstract and keywords
+\Abstract{ The \proglang{R} package \pkg{isocir} provides a set of functions for making isotonic inference for circular data. In
+this setting, the standard statistical methods cannot be used to make inferences due to the geometry of the circle and
+restrictions, estimators and hypotheses tests have to be properly defined to cope with the peculiarities of circular data.
+\citet{Rue09} considers the estimation problem and solves it for the appropriate circular orderings among which the isotropic
+order is the most suitable for applications. \cite{Fer11} provides a methodology for dealing with isotropic testing problems.
+
+In this paper we generalize the estimation and testing results obtained in those papers and implement the corresponding
+procedures in \proglang{R} language. Since one of the main fields where circular data are relevant is cell biology we illustrate
+the package with cell cycle data examples. However, we want to stress its usefulness in any context where circular data may
+appear.\\}
+
+\Keywords{Circular Data, Isotropic Order, \emph{CIRE}, Conditional Test, R package \pkg{isocir}, \proglang{R}}
+\Plainkeywords{Isotonic estimation, circular data, isotropic order, conditional test, R package isocir} %% without formatting
+
+
+
+
+%% The address of (at least) one author should be given
+%% in the following format:
+\Address{
+  Sandra Barrag\'{a}n, Miguel A. Fern\'{a}ndez, Cristina Rueda\\
+  Departamento de Estad\'{\i}stica e Investigaci\'{o}n Operativa\\
+  Facultad de Ciencias\\
+  Universidad de Valladolid\\
+  Valladolid, Spain\\
+  E-mail: \email{sandraba@eio.uva.es},\\
+   \email{miguelaf@eio.uva.es},\\
+    \email{crueda@eio.uva.es}\\
+  URL: \url{http://www.eio.uva.es/~sandra/}\\
+   \url{http://www.eio.uva.es/~miguel/}\\
+    \url{http://www.eio.uva.es/~cristina/}\\
+
+ Shyamal D. Peddada\\
+ Biostatistics Branch \\
+ National Institute of Environmental Health Sciences\\
+ Research Triangle Park\\
+ NC 27709, USA\\
+ E-mail: \email{peddada@niehs.nih.gov},\\
+ URL: \url{http://www.niehs.nih.gov/research/atniehs/labs/bb/staff/peddada/index.cfm}\\
+
+}
+
+
+%% end of declarations %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+\begin{document}
+<<eval=FALSE, echo=FALSE, results=hide>>=
+library("isocir")
+@
+
+%\section[Introduction]{About \proglang{Java}}
+
+\section[Introduction]{Introduction} 
+In this paper we describe the use of \pkg{isocir} package within the \proglang{R} 
+statistical environment, \cite{Rcore04}, which is available from the Comprehensive \proglang{R} archive Network at 
+\url{http://CRAN.R-project.org}. The package \pkg{isocir} provides functions that carry out the methodology for the analysis of 
+circular data under restrictions.
+
+Circular data arise in a wide range of contexts, such as in geography, cell biology, circadian biology, endocrinology, 
+ornithology, etc (see \citet{Zar99}, \citet{Mar08} or \citet{Ber09}). Unlike the Euclidean space, the points are wrapped around on a unit circle. That is, starting at a point ``P", 
+by traveling around the circumference of the circle one would return to the point ``P".  As a consequence a circle can never be 
+linearized and hence methods developed for Euclidean space data are not applicable to circular data.  The starting point ``P" is 
+said to be the pole of the circle and we use the standard convention of traveling in the counter-clockwise direction.  Thus the 
+angles are measured between $[0, 2\pi]$. General methodology for circular data can be found in the book  \citet{Mar00}, among 
+others. \\
+
+It is frequent that in some statistical applications, additional information is available to the researchers. In the case of
+Euclidean space data, the simple order restriction on population parameters is an important inequality constraint that is widely
+noted in practice (cf \citet{Ped07}).  According to this constraint the experimenter knows a priori the relative order among all
+population parameters under consideration.  Estimation of the population parameters under the simple order constraint is known
+as the isotonic regression. A popular algorithm for solving this problem is the \emph{pool-adjacent
+violators algorithm} (PAVA). See \citet{Rob88} for details.\\
+
+For circular parameter space, the standard notion of simple order needs to be modified to account for the fact that the 
+parameters wrap around the circle. Furthermore, as a consequence of this characteristic of a circle, the PAVA for Euclidean 
+space data is not directly applicable to circular data. \citet{Rue09} introduced an order restriction on a unit circle called the 
+isotropic order. They also extended the notion of isotonic regression estimator to circular parameter space, known as 
+the  circular isotonic regression estimator (CIRE) and developed an estimation procedure which is a generalization of PAVA. In 
+Section~\ref{circular models} we describe the isotropic order and CIRE in detail.\\
+
+The initial motivation for developing constrained inference methods for circular data was the analysis of cell-cycle gene
+expression data. Since the normal cell cycle is a well orchestrated process consisting of four major phases, namely, G1, S, G2 and M, of distinct biological functions, 
+cell biologists have long been interested in determining the phase associated with each cell cycle gene (cf \citet{Ol05}, 
+\citet{Rus04}).  The current understanding is that a cell cycle gene would attain its peak expression during the phase 
+corresponding to its biological function.  For a given subset of cell cycle genes, a cell biologist may also be interested in 
+inferring whether the relative order of peak expression among these cell cycle genes is conserved across multiple species. Until 
+now there did not exist a formal statistical methodology for answering such questions. Recently, using the estimators derived in 
+\citet{Rue09}, \citet{Fer11} developed a formal statistical theory and methodology for testing the isotropic order among a 
+subset of cell cycle genes.  Using this methodology, \citet{Fer11} concluded that the isotropic order among a large subset of 
+cell cycle genes is conserved between two species of yeasts, namely, the budding yeast and the fission yeast.  They also 
+inferred that fewer cell cycle genes were conserved between humans and fission yeast. Results such as these provide important 
+insights into evolutionary biology since cell division is fundamental to growth and development of every organism. \\
+
+Statistical methods developed in \citet{Rue09} and \citet{Fer11} would have wide range of applications beyond the analysis of
+cell cycle gene expression data.  For example, ornithologists may find these methods useful in their investigation of the
+migratory patterns and directions of birds, \citet{Coc04}. An endocrinologist may find these methods useful when studying
+temporal patterns hormones in people treated for hormonal imbalances or researchers investigating genes controlling circadian
+clock. Moreover, this methodology is used in other scientific disciplines such as earth science (some feature of an earthquake),
+meteorology (wind directions, \citet{Bow00}), physics (orbits of planets or direction fluctuations in the atmosphere,
+\citet{vDo00}), psychology (studies of mental maps or monitoring data, \citet{Kub07}), image analysis (the orientation of ridges
+on fingerprints or magnetic maps, \citet{Bol03}), medicine (the incidence of onsets of a particular disease or investigating
+some disease indicator, \citet{Le03}), neuroscience (orientation selectivity, \citet{Mal97}), political and social sciences
+(\citet{Has88}), criminology (\citet{Bru05}) and many more. Motivated by the wide range of applications and the non-existance of
+a user friendly software, in Section~\ref{isocir} of this article we introduce our R based user friendly software called
+\pkg{isocir}. In Section~\ref{Analysis} we illustrate the software by analyzing a cell cycle gene expression
+data. Concluding remarks are provided in Section~\ref{Conclusions}.\\
+
+
+\section[Circular models]{Circular models with parameters under restrictions} \label{circular models} 
+
+\subsection[Description Orders]{Description of the order restrictions} \label{orders} 
+Let $\varphi_{ik}$ $\forall i=1,\ldots, q,$ $k=1,\ldots,n_{i},$ be angular observations from $q$ populations with mean directions $\phi_{1},\ldots,\phi_{q}$. Let $\theta_{1},\ldots,\theta_{q}$ be 
+the sample mean directions and $r_1,\ldots,r_q$ the sample mean resultant lengths (check \citet{Mar00}).\\
+
+As usually done, throughout this paper, angles are measured in the anti clockwise direction. If the pole of the circle is at 
+zero radians and pretend that the parameters are points on the line then the usual notion of simple order would be: 
+\begin{equation} C_{SO}=\{\phi\in [0,2\pi]^q/0\leq\phi_{1}\leq\phi_{2}\leq\ldots\leq\phi_{q}\leq 2\pi\} \end{equation} A 
+problem with the above representation is that it does not acknowledge that the angle $\phi_q$ is ``followed by" $\phi_1$. There 
+is a disconnect between the two parameters in the above representation.  In many practical applications, such as in cell biology 
+(see \citet{Rue09}, and \citet{Fer11}), such a disconnect is not meaningful. This is because, as far as the biologist is 
+concerned there is a relative order among all $q$ parameters.  Thus the usual notion of simple order defined for parameters in 
+the Euclidean space may not be appropriate for circular parameters.\\
+
+In view of this need, \citet{Rue09} introduced the following order restriction on a circle which is called the isotropic order. 
+Suppose $\phi_i, i=1 ,2, 3,$ are three angular parameters on a unit circle. Then they are said to be in an isotropic order if 
+$\phi_1$ is ``followed" by $\phi_2$ which is ``followed" by $\phi_3$ which in turn us followed by $\phi_1$.  We use the notation 
+$\phi_1 \preceq \phi_2 \preceq \phi_3 \preceq \phi_1$.  More generally, the following notation is used to describe the isotropic 
+order among the $q$ angular parameters:
+
+\begin{equation} C_{IO}=\{\phi\in [0,2\pi]^q/\phi_{1}\preceq\phi_{2}\preceq\ldots\preceq\phi_{q}\preceq\phi_{1}\} 
+\end{equation}
+
+Thus for all $i=1...q$, $\phi_{i}$ is after $\phi_{i-1}$ and before $\phi_{i+1}$, $\phi_{0}\equiv\phi_{q}$ and 
+$\phi_{q+1}\equiv\phi_{1}$. The isotropic order does not depend on the location of the pole and is rotation invariant.\\
+
+Let $C^{I}_{SO}=\{0\leq\phi_{I}\leq\phi_{I+1}\leq\ldots\leq\phi_{q}\leq\phi_{1}\leq\ldots\leq\phi_{I-1}\leq 2\pi \}$ be the 
+simple order starting at index $I$. Then the isotropic order cone is:
+
+\begin{equation} \label{cio} C_{IO}=\bigcup_{1\leq I\leq q}C^{I}_{SO} \end{equation}
+
+
+From a practical point of view it is also interesting to consider the following generalization of the isotropic order. It allows 
+taking into account possible partial order relations among groups of parameters.
+
+\begin{equation} \label{CGIO} C_{GIO}=\left\{ \phi\in [0,2\pi]^q:\left\{
+  \begin{array}{c}
+     \phi_{11} \\
+    \phi_{12} \\
+    \vdots \\
+    \phi_{1 l_{1}}  \\
+  \end{array}
+\right\} \preceq \left\{
+  \begin{array}{c}
+     \phi_{21} \\
+    \phi_{22} \\
+    \vdots \\
+    \phi_{2 l_{2}}  \\
+  \end{array}
+\right\}\preceq \ldots \preceq \left\{
+  \begin{array}{c}
+     \phi_{L1} \\
+    \phi_{L2} \\
+    \vdots \\
+    \phi_{L l_{L}}  \\
+  \end{array}
+\right\}\preceq \left\{
+  \begin{array}{c}
+     \phi_{11} \\
+    \phi_{12} \\
+    \vdots \\
+    \phi_{1 l_{1}}  \\
+  \end{array}
+\right\}\right\} \text{,} \end{equation}
+
+
+where $L$ is the number of groups in the order, $l_{j}$ is the number of angular parameters in the $j$ level and $q$ is the 
+total number of parameters $q=\sum_{j=1}^{L}l_{j}$.\\
+
+In this case, we assume that each of the parameters in group $j$, $\{\phi_{j1}, \ldots, \phi_{jl_{j}} \}$ follow the ones in
+group $j-1$ and are followed by the ones in group $j+1$ but we do not assume any order among the parameters inside each group.
+This generalized isotropic order plays an important role in cell biology when a biologist is investigating a large number of
+cell cycle-genes. In such situations, it may be difficult for a biologist to ascertain the exact order among all cell-cycle
+genes under consideration. \\
+
+\begin{figure}[htb]
+\begin{minipage}[b]{0.4\linewidth}
+  \centering
+\includegraphics[width=125pt]{./preisotropico.pdf}\\
+  \caption{Graphical example}
+  \label{phases data}
+\end{minipage}
+\begin{minipage}[b]{0.6\linewidth}
+However, the biologist may be able order groups of genes based on their known biological functions. In such situations the
+proposed generalized isotropic order can be a natural constraint on the parameter space.\\
+
+Figure~\ref{phases data} is a graphical example where data follow this general isotropic order. Each group is a set of
+parameters. In this example of the general isotropic order, there are 13 parameters divided in four groups, $L=4$. There is a
+different number of elements in each group: $l_{1}=4$; $l_{2}=4$; $l_{3}=2$; $l_{4}=3$, so $q=\sum_{l}^{L}l_{j}=13$.
+\end{minipage}
+\end{figure}
+
+
+\subsection[CIRE]{CIRE (Circular Isotonic Regression Estimator)} \label{CIRE}
+
+Solutions to a wide class of order restricted estimation problems in the Euclidean space can be obtained using isotonic regression. 
+The circular version of this procedure is called the Circular Isotonic Regression Estimator (CIRE) and is described in 
+\citet{Rue09}. The CIRE of $\phi$, under the constraint $\phi \in C$, is given by: \begin{equation} \label{CIRE} 
+\widetilde{\theta}=\arg \min_{\alpha \in C} SCE(\alpha,\theta)\text{,} \end{equation}
+
+where $SCE$ is the sum of circular error, which is a circle analog of sum of squares error (SSE) used for Euclidean data and is 
+defined as follows: \begin{equation} \label{SCE} SCE(\theta,\phi)=\sum_{i=1}^{q} r_{i}(1-cos(\theta_{i}-\phi_{i})) 
+\end{equation}
+
+
+Although, on the face, the above minimization problem appears to be simple, it is a challenging problem as demonstrated in 
+\citet{Rue09}).  In the case of simple order in Euclidean space it is common to use the \emph{pool adjacent violators algorithm} 
+(PAVA) (cf \citet{Rob88}) to derive the isotonic regression estimator which minimizes the SSE.  However, in the case of circle 
+the PAVA cannot be used to derive CIRE. To apply PAVA it is essential that the Cauchy mean value property is fulfilled (cf. 
+\citet{Rob80}). According to this property, the mean value of two real numbers is strictly between the two numbers.  This is not 
+true in the case of circle. For this reason, \citet{Rue09}) developed an alternate computationally simple algorithm to derive 
+CIRE. For more details regarding the existence, uniqueness and other properties of CIRE we refer the reader to \citet{Rue09}). 
+The algorithm is implemented in \proglang{R} within the function \emph{CIREi} in the package \pkg{isocir} which is illustrated 
+in Section~\ref{isocir}.
+
+
+\subsection[VM models]{Inferences in von Mises models} \label{test}
+
+From the point of view of statistical inference, perhaps the most useful and popular distribution on the circle is the von Mises 
+distribution. This distribution is analogous to the Normal distribution on a real line. \\
+
+Let $\theta_{1},\ldots \theta_{q}$ be sample mean directions of the $q$ independent populations. From now on, we use the 
+notation $\theta_{i} \leadsto VM(\phi_{i},\kappa)$, where $\phi_{i}$ is the mean direction of the population $i$ and $\kappa$ is 
+the common concentration parameter of the von Mises distributions. The probability density function is given by: 
+\begin{equation} f(\phi,\mu,k)=\frac{1}{2\pi I_{0}(k)} e^{\kappa\cos(\phi-\mu)}\text{,\\} \end{equation}
+
+for $0\leq \phi\leq 2\pi$, with $0\leq \mu\leq 2\pi$ and $\kappa\geq 0$. Where $I_{0}$ denotes the modified Bessel function of 
+the first kind and order 0.\\
+
+Under this probability model \citet{Rue09} show that CIRE is the Restricted Maximum Likelihood Estimator (RMLE).\\
+
+Recently, motivated by a problem in cell biology, \citet{Fer11} tested the hypotheses given below for the isotropic order cone 
+($C_{IO}$). In the present paper, we extend those procedures to the case of testing the general isotropic order cone 
+($C_{GIO}$). \begin{description}
+  \item[$\hspace{1cm}H_{0}: $ ] The parameters $\phi_{i}$  $i=1\ldots q$ follow a known (general) isotropic order\\
+$\overline{}\hspace{1cm}$(i.e. $\phi \in C$ where $C$ is the order cone).
+  \item[$\hspace{1cm}H_{1}: $ ] $H_{0}$ is not true (i.e. $\phi \notin C$).
+\end{description} If $\kappa$ is known, the likelihood ratio statistic for these hypotheses is: \begin{equation} T=2\kappa 
+SCE(\theta,\widetilde{\theta})\text{,} \end{equation} where $\widetilde{\theta}$ is the CIRE computed under the isotropic order 
+set in $H_{0}$.
+
+Due to computational issues related to the derivation of the critical values of the likelihood ratio test \citet{Fer11} proposed 
+the following asymptotic $\alpha$ level conditional test.
+
+This test is a modification of the likelihood ratio test which benefits from increased statistical power for interesting 
+alternatives and is computationally very simple:\\ \begin{equation} \text{CT: }H_{0} \text{ is rejected whenever }T \geq 
+c(m)\text{, } \end{equation}
+
+where $m$ is the number of level sets for $\widetilde{\theta}$. As the asymptotic distribution of T, when $\kappa$ is known, is 
+$\chi_{q-m}^{2}$, then $c(m)$ is chosen so that 
+\begin{equation} pr(\chi _{q-m}^{2} \geq c(m))=\frac{% 
+\alpha }{1-pr_{\phi^0}(C)}\text{,} 
+\end{equation}
+
+where $pr_{\phi^0}(C)$ is the probability of the order cone ($C$) under the equality of the parameters, so 
+$pr_{\phi^0}(C_{IO})=\frac{1}{(q-1)!}$ if we test the isotropic order or $pr_{\phi^0}(C_{GIO})=\frac{l_{1}!\cdots 
+l_{L}!}{(q-1)!}$ if we test the general isotropic order. Note that as $T=0$ under $H_0$ and we are using a conditional test, the 
+level has to be adjusted using that probability.\\
+
+If $\kappa$ is unknown then it can be estimated if we have replicated data and the test statistic $T$ can be accordingly
+modified as:
+\begin{equation} T=\frac{2\widehat{\kappa}SCE(\theta,\widetilde{\theta})}{q}\text{,} 
+\end{equation}
+
+whose asymptotic distribution under the null hypothesis is $F_{q-m, q-1}$. Thus $c(m)$ is chosen so that
+\begin{equation} 
+pr(F_{q-m, q-1} \geq c(m))=\frac{% 
+\alpha }{1-pr_{\phi^0}(C)}\text{,} 
+\end{equation} where, as in the previous case, 
+$pr_{\phi^0}(C_{IO})=\frac{1}{(q-1)!}$ or $pr_{\phi^0}(C_{GIO})=\frac{l_{1}!\cdots l_{L}!}{(q-1)!}$ depending on the null 
+hypothesis.\\
+
+These results are proved for the isotropic order ($C_{IO}$) in the supplementary material of \citet{Fer11} for moderate and
+large values of $q$. Similar proofs can 
+be obtained in the case of testing the general isotropic order ($C_{GIO}$).\\
+
+Moreover, notice that the p-value of this test may serve as a useful goodness of fit criterion when comparing two or more 
+plausible isotropic orders among a set of parameters. Smaller p-values, suggest that the estimations are closer to the presumed 
+isotropic order. Thus the statistical methodology developed in \citet{Fer11} can be used not only for testing relative order 
+among the parameters, but it can be also useful for selecting ``best fitting" isotropic order among several candidate isotropic 
+orders for the biologist to choose form.\\
+
+
+These tests are implemented in the function \emph{CTi} in the \proglang{R} package \pkg{isocir}. In Section~\ref{Analysis} we 
+illustrate these tests using cell cycle gene expression data.
+
+\section[isocir]{Package \pkg{isocir}}
+\label{isocir}
+
+In the following we shall first briefly describe various \proglang{R} packages for isotonic regression and analysis of circular
+data. We shall then describe the structure of the proposed package \pkg{isocir} and demonstrate how to use it with the help of
+some examples.\\
+
+\subsection[related]{Related \proglang{R} packages} 
+Since isotonic regression is a well-known and widely used technique there are many packages in \proglang{R}, for performing isotonic regression, such as: \begin{itemize}
+  \item \textbf{\pkg{isotone}} (\cite{isotone}): Active set and generalized PAVA for isotone optimization.
+  \item \textbf{\pkg{Iso}} (\cite{Iso}): Functions to perform isotonic regression.
+  \item \textbf{\pkg{bisoreg}} (\cite{bisoreg}): Bayesian Isotonic Regression with Bernstein Polynomials.
+  \item \textbf{\pkg{ordMonReg}} (\cite{ordMonReg}): Compute least squares estimates of one bounded or two ordered isotonic regression curves.
+  \item \textbf{\pkg{OrdFacReg}} (\cite{OrdFacReg}): Least squares, logistic, and Cox-regression with ordered predictors.
+\end{itemize}
+
+Similarly, there are several packages in \proglang{R} for analyzing circular data, such as: \begin{itemize}
+  \item \textbf{\pkg{CircStats}} (\cite{CircStats}): The implementations of the Circular Statistics from ``Topics in circular Statistics"
+  \citet{Jam01}.
+  \item \textbf{\pkg{circular}} (\cite{circular}): Another package with Circular Statistics from the same book, \citet{Jam01}.
+  \item \textbf{\pkg{CircSpatial}} (\cite{circSpatial}):This package is a collection of functions for color continuous high resolution images of
+circular spatial data, circular kriging, and simulation of circular random fields. \end{itemize}
+
+Motivated by the recent interest in applications and the development of constrained inference for circular data, we introduce 
+the software package \pkg{isocir}. The name comes from the fact that it allows making \textbf{iso}tonic inference for 
+\textbf{cir}cular data. Our package is closely related to: \pkg{circular} (see \cite{circular}) and \pkg{combinat} (see 
+\cite{combinat}). These packages should be installed in the computer before loading \pkg{isocir}.\\
+
+\subsection[Package structure]{Package structure} \begin{table}[h] \centering \renewcommand{\arraystretch}{1.1} 
+\begin{tabular}{|l|l|l|} \hline \textbf{ Functions} & \textbf{  Arguments} &\textbf{   Description}\\ \hline cirmean & (data) & 
+circular mean\\ \hline cirSCE & (arg1, arg2, mrl)& Sum of Circular Error\\ \hline CIREi & (data, levels, isotropic, graphic, 
+stack) & Circular Isotonic Regression Estimator\\ \hline mrl & (data) & mean resultant length\\ \hline cirkappa & (data) & kappa 
+estimation\\ \hline CTi & (data, levels, kappa) & Conditional Test\\ \hline \end{tabular} \caption{Summary of the components of 
+\pkg{isocir}} \label{functions} \end{table}
+
+Functions used in the package are summarized in Table~\ref{functions} and are briefly described below.
+
+\begin{itemize}
+  \item \textbf{cirmean}: This function computes the circular mean as defined in \citet{Mar00}.
+\begin{equation} 
+\overline{\theta}=\left\{\begin{array}{ll} \arctan{\Big(\frac{\overline{S}}{\overline{C}}}\Big) \hspace{1cm} 
+&\textrm{if  } \overline{S}>0, \overline{C}>0\\ \arctan{\Big(\frac{\overline{S}}{\overline{C}}}\Big)+\pi \hspace{1cm} 
+&\textrm{if  } \overline{C}<0\\ \arctan{\Big(\frac{\overline{S}}{\overline{C}}}\Big)+2\pi \hspace{1cm} &\textrm{if  } 
+\overline{S}<0, \overline{C}>0\\ \end{array}\right.
+\end{equation}
+
+where $\overline{S}=\sum_{i=1}^{q}\sin{\theta_{i}}$ and $\overline{C}=\sum_{i=1}^{q}\cos{\theta_{i}}$.
+  \item \textbf{cirSCE}: Calculates the circular error between two
+   q dimensional points on the circle as defined in (\ref{SCE}). In case data with replications, the mean resultant
+   lengths ($r_{i}$) have to be introduced in the argument \code{mrl}. Otherwise, by default it is assumed to be 1.
+\item \textbf{CIREi}: For a given user specified general isotropic order (\ref{CGIO}), this function computes CIRE (\ref{CIRE}) 
+using the algorithm developed in Rueda et al. (2009). \item \textbf{mrl}: Calculates the \textbf{m}ean \textbf{r}esultant 
+\textbf{l}ength as defined in Mardia et al. (2000). \item \textbf{cirkappa}: Calculates the estimation of the concentration 
+parameter of a von Mises distribution. It is necessary to have replications in the data. The argument is a matrix where each row 
+is an individual and each replications appears in a column. \item \textbf{CTi}: Performs the conditional test and computes the 
+corresponding p-value for the following hypotheses:\\
+
+$\hspace{2cm}H_{0}: $ The phase angles $\phi_{i}$  $i=1\ldots q$ follow a known (general) isotropic order.
+
+$\hspace{2cm}H_{1}: H_{0}$ is not true
+
+ The test statistic is:
+\begin{equation}
+\label{teststat} 
+T=\left\{\begin{array}{lll} 2\kappa SCE(\theta,\widetilde{\theta})  \hspace{0.2cm} & 
+\overset{aprox.}{\leadsto} \chi_{q-m}^{2}& \textrm{ if } \kappa \textrm{ can be assumed as known}\\ 
+\frac{2\widehat{\kappa} SCE(\theta,\widetilde{\theta})}{q} \hspace{0.2cm} & \overset{aprox.}{\leadsto} F_{q-m,q-1}& \textrm{ if } \kappa \textrm{ is 
+unknown (replications needed) , }\\ \end{array}\right. 
+\end{equation} 
+where  $\widetilde{\theta}$ is the CIRE obtained internally with \emph{CIREi}, \emph{m} is the number of level sets for $\widetilde{\theta}$ and $\widehat{\kappa}$ is the 
+estimation of $\kappa$ obtained when necessary with \emph{cirkappa}. Now, if $t^{*}$ is the value of $T$ for the data, the 
+p-value of the test is: 
+\begin{equation}\label{pvalue}
+p-value=\left\{\begin{array}{ll} pr(\chi_{q-m}^{2} \geq t^{*})[1-pr_{\phi^0}(C)]& \textrm{ if } \kappa \textrm{ can be assumed as known}\\
+ pr(F_{q-m,q-1} \geq t^{*})[1-pr_{\phi^0}(C)]& \textrm{ if } \kappa \textrm{ is unknown (replications needed),  }\\
+\end{array}\right.
+\end{equation}
+where $pr_{\phi^0}(C)$ is the probability of the order cone ($C$) under the equality of the parameters.
+
+\end{itemize} 
+
+\subsection[How works]{How \pkg{isocir} works}
+\label{How works}
+
+We illustrate isocir by describing the two main components of the package, namely, \emph{CIREi} for obtaining the circular 
+isotonic regression estimator, and \emph{CTi} for performing conditional test explained above. \begin{description}
+  \item \textbf{CIREi}
+\end{description}
+
+\begin{table}[h] \centering \renewcommand{\arraystretch}{1.1} \begin{tabular}{| l | l |}
+ \hline
+ \emph{Arguments} & \emph{Values} \\
+\hline \textbf{\code{data}} & matrix with the data\\ \hline \textbf{\code{levels}} & the levels of the order\\ \hline 
+\textbf{\code{isotropic}} & \code{=TRUE}(by default) / \code{=FALSE}\\ \hline \textbf{\code{graphic}} & \code{=FALSE}(by 
+default) / \code{=TRUE}\\ \hline \textbf{\code{stack}} & \code{=TRUE}(by default) / \code{=FALSE}\\ \hline \end{tabular} 
+\caption{Arguments of the \emph{CIREi} function} \label{arguments_CIREi} \end{table}
+
+
+In this section we describe each argument of the function  \emph{CIREi}. The characteristics of these arguments are described in 
+Table~\ref{arguments_CIREi}. The input variable \code{data} consists of all the input angles $\theta_{jp}$ grouped and ordered 
+according to the desired order.
+
+\begin{itemize}
+  \item \textbf{Example 1}
+  \label{Example1}
+\end{itemize}
+
+In this example, we assume the following order for the parameters: \begin{equation} \left\{
+  \begin{array}{c}
+  \phi_{11} \\
+  \phi_{12} \\
+  \phi_{13} \\
+\end{array}\right \} \preceq  \left\{ \begin{array}{c}
+  \phi_{21} \\
+  \phi_{22} \\
+ \end{array}\right\} \preceq \{ \phi_{31} \}\preceq
+\left\{  \begin{array}{c}
+  \phi_{41} \\
+  \phi_{42} \\
+ \end{array}\right\}\preceq
+ \left\{
+  \begin{array}{c}
+  \phi_{11} \\
+  \phi_{12} \\
+  \phi_{13} \\
+\end{array}\right\} \end{equation} 
+
+Suppose that $\theta_{jp}$ $\forall j=1,\ldots, L,$ $p=1,\ldots,l_{j},$ the sample mean directions corresponding to the parameters $\phi_{jp}$, 
+are:\\
+
+$\theta_{11}=0.025; \hspace{0.1cm}\theta_{12}=1.475;\hspace{0.1cm}\theta_{13}=3.274;$\\ $\theta_{21}=5.518; 
+\hspace{0.1cm}\theta_{22}=2.859;$\\ $\theta_{31}=5.387;$\\ $\theta_{41}=4.179; \hspace{0.1cm}\theta_{42}=1.962$.\\
+
+These data are in the example set of random circular data in our package and they can be used by calling as below:
+
+% CHUNK 2 
+<<eval=FALSE>>= 
+data(cirdata)
+@ 
+The format of the data is a matrix and the levels of the order are defined as follows:
+
+% CHUNK 3 
+<<eval=FALSE>>= 
+data4 <- matrix(cirdata,ncol=1) 
+orderLevels <- c(1,1,1,2,2,3,4,4)
+@
+
+
+The isotropic order is considered by default (i.e. \code{isotropic = TRUE}) but the algorithm can obtain the CIRE under the 
+simple order by setting \code{isotropic = FALSE}. The result of the function is a list with three elements: \begin{description}
+  \item \code{$cirmeans} is a list with the circular means with the form set by levels.
+  \item \code{$SCE} is the value of the Sum of Circular Error between the data and the CIRE.
+  \item \code{$CIRE} is a list with the CIRE with the form set by levels.\\
+\end{description}
+
+CIRE estimates for the above example with \code{isotropic=TRUE} are:
+
+% CHUNK 4 
+<<eval=FALSE>>= 
+CIREi(data = data4, levels = orderLevels) 
+@ 
+
+Thus,
+\begin{equation}
+\left\{
+  \begin{array}{c}
+  \tilde{\theta}_{11}=0.9939 \\
+  \tilde{\theta}_{12}=1.4756 \\
+  \tilde{\theta}_{13}=3.0665 \\
+\end{array}\right\}
+\preceq  \left\{ \begin{array}{c}
+  \tilde{\theta}_{21}=5.0567 \\
+  \tilde{\theta}_{22}=3.0665 \\
+ \end{array}\right\} \preceq \{ \tilde{\theta}_{31}=5.0567 \}\preceq
+\left\{  \begin{array}{c}
+  \tilde{\theta}_{41}=5.0567 \\
+  \tilde{\theta}_{42}=0.9939 \\
+ \end{array}\right\}
+\end{equation}
+
+Results may be displayed graphically by setting \code{graphic = TRUE}. When done so, two plots are produced, one for the 
+unrestricted estimates and the other for CIRE. Graphs are not obtained if the variable \code{graphic = FALSE} which is the 
+default value. Additional arguments can be introduced to change the options of the plots, such as \code{stack} which is 
+\code{TRUE} by default to see points with the same value separately, otherwise that points would be overlapped.\\
+
+\begin{description}
+  \item \textbf{CTi}
+\end{description} As stated earlier, in this section we assume that the sample mean directions $\theta_i$ are distributed 
+according to independent von Mises distribution $VM(\phi_i, \kappa)$, where $\phi_{i}$ is the mean direction of population $i$ 
+and $\kappa$ its concentration parameter. \begin{table}[h] \centering \renewcommand{\arraystretch}{1.1} \begin{tabular}{| l | c 
+| c|}
+ \hline
+ \emph{Arguments} & \emph{$\kappa$ known} & \emph{$\kappa$ unknown} \\
+\hline \textbf{\code{data}} & matrix (one column) & matrix (as many columns as replications)\\ \hline \textbf{\code{levels}} & 
+\multicolumn{2}{c|}{numeric vector with  the levels of the order to be contrasted}\\ \hline \textbf{\code{kappa}} & numeric value 
+& (NULL)\\ \hline \end{tabular} \caption{Arguments of the \emph{CTi} function} \label{arguments_CTi} \end{table}
+
+The three arguments of the function CTi are \code{data}, \code{levels} and \code{kappa}. The characteristics of these arguments 
+are described in Table~\ref{arguments_CTi}.  In this section we explain these arguments with the help of two examples. In the 
+first example, which is based on the data provided Example 1, we assume that $\kappa$ is known and in the second example, which 
+is based on a set of data available in the package, $\kappa$ is an unknown parameter.\\
+
+\begin{itemize}
+  \item \textbf{Example 2.1 ($\kappa$ known):}
+
+Using the same notation as in Example 1, we test the following hypotheses.\\ \begin{description}
+  \item[$\hspace{1cm}H_{0}: $ ]$
+\left\{
+  \begin{array}{c}
+  \phi_{11} \\
+  \phi_{12} \\
+  \phi_{13} \\
+\end{array}\right \} \preceq  \left\{ \begin{array}{c}
+  \phi_{21} \\
+  \phi_{22} \\
+ \end{array}\right\} \preceq \{ \phi_{31} \}\preceq
+\left\{  \begin{array}{c}
+  \phi_{41} \\
+  \phi_{42} \\
+ \end{array}\right\}\preceq
+ \left\{
+  \begin{array}{c}
+  \phi_{11} \\
+  \phi_{12} \\
+  \phi_{13} \\
+\end{array}\right\}$
+  \item[$\hspace{1cm}H_{1}: $ ] $H_{0}$ is not true.\\
+\end{description} The \code{data} argument contains the sample mean directions in the form of a matrix where the rows are the 
+individuals and the columns are the replications when they exist, if not there is one column with the angular means. In this 
+case \code{data = cbind(cirdata))}. The value of $\kappa$ is introduced in \code{kappa}. Thus, for the data and the order 
+restriction in Example 1(page~\pageref{Example1}), assuming $\kappa = 0.2$ we have the following statements.  The output is  the 
+p-value for the conditional test from equation (\ref{pvalue}).\\
+
+
+% CHUNK 5 
+<<eval=FALSE>>= 
+CTi(data = cbind(cirdata), levels = c(1,1,1,2,2,3,4,4), kappa = 0.2) 
+@
+
+Since \code{p-value=0.9615}, we cannot reject the null hypothesis that the parameters satisfy this general isotropic order. 
+\end{itemize} \begin{itemize}
+  \item \textbf{Example 2.2 ($\kappa$ unknown (replications needed)):}
+
+Using the data in package called \code{datareplic} we demonstrate the use of the function \emph{CTi} when $\kappa$ is unknown. 
+As remarked earlier, when $\kappa$ is unknown we need replicate data to estimate $\kappa$.  The file \code{datareplic} is a 
+matrix with columns denoting replications and rows denoting the angles corresponding to each individual. We have 8 parameters 
+($\phi_{11},\phi_{12},\phi_{13},\phi_{21},\phi_{22},\phi_{31},\phi_{32},\phi_{41}$) and the order to be contrast is.\\
+
+\begin{description}
+  \item[$\hspace{1cm}H_{0}: $ ] $
+\left\{
+  \begin{array}{c}
+  \phi_{11} \\
+  \phi_{12} \\
+  \phi_{13} \\
+\end{array}\right \} \preceq  \left\{ \begin{array}{c}
+  \phi_{21} \\
+  \phi_{22} \\
+ \end{array}\right\} \preceq
+\left\{  \begin{array}{c}
+  \phi_{31} \\
+  \phi_{32} \\
+ \end{array}\right\}\preceq \{ \phi_{41} \}\preceq
+ \left\{
+  \begin{array}{c}
+  \phi_{11} \\
+  \phi_{12} \\
+  \phi_{13} \\
+\end{array}\right\}$
+  \item[$\hspace{1cm}H_{1}: $ ] $H_{0}$ is not true.\\
+\end{description}
+
+We take the data from the package. We have to set the levels of the order in the argument \code{levels}.\\
+
+ % CHUNK 6 
+<<eval=FALSE, results=hide>>= 
+data(datareplic) 
+orderLevels2 <- c(rep(1,3),rep(2,2),rep(3,2),rep(4,1)) 
+@
+
+Since replicate data are available, we do not include \code{kappa} in the \emph{CTi} function.  Thus we have the following code: 
+\\
+
+% CHUNK 7 
+<<eval=FALSE>>= 
+CTi(datareplic, levels = orderLevels2) 
+@
+
+The result is the p-value defined in (\ref{pvalue}). Since the \code{p-value=0.2660570} we may say that there is not sufficient 
+evidence in the data to reject the null hypotheses that the angles are in an isotropic order. \end{itemize}
+
+
+\section[Applications]{Application to analysis of the cell cycle gene expression data}
+\label{Analysis}
+
+As commented earlier, the motivation for the development of the methods described in \citet{Rue09} and \citet{Fer11} is the 
+analysis of gene expression data in the cell cycle. In this setting, researchers are interested in identifying and understanding 
+functions of genes participating in a normal cell division cycle in order, for example, to detect disruptions that may lead to 
+excessive proliferation of cells.\\
+
+\begin{figure}[htb] \begin{minipage}[b]{0.33\linewidth}
+  \centering
+  \includegraphics[width=90pt]{./esqbasico.pdf}\\
+  \caption{Phases of a cell cycle}
+  \label{diagramcycle}
+\end{minipage} \begin{minipage}[b]{0.66\linewidth} A normal cell cycle goes through four phases, shown in the diagram of the 
+Figure~\ref{diagramcycle}, Growth 1 (G1), Synthesis (S), Growth 2 (G2) and Mitosis (M). Biologists are interested in determining 
+the phase associated with a cell cycle gene because it may correspond to the biological function of the gene. ``The phase 
+associated with a gene" is the phase corresponding to its maximum expression. This moment of peak expression of the gene in the 
+cell cycle is usually called the ``phase angle" of the gene.\\
+
+\end{minipage} 
+\end{figure}
+
+The length, both of the cycle and the phases, varies a lot depending on the organism. Here, we consider two species of yeasts: 
+\emph{S. Cerevisiae} and \emph{S. Pombe}. They are a good example of the different length of the phases. For instance, there is 
+a great difference between the G2 phase in budding yeast (\emph{S. Cerevisiae}) and in fission yeast (\emph{S. Pombe}), see 
+Figures~\ref{budding}~and~\ref{fission}.\\
+
+\begin{figure}[h] \begin{minipage}[b]{0.5\linewidth}
+  \centering
+  \includegraphics[width=95pt]{./budding.pdf}\\
+  \caption{Budding yeast cycle}
+  \label{budding}
+\end{minipage} \begin{minipage}[b]{0.5\linewidth}
+  \centering
+  \includegraphics[width=95pt]{./fission.pdf}\\
+  \caption{Fission yeast cycle}
+  \label{fission}
+\end{minipage} \end{figure}
+
+
+In this example, we consider 16 genes that have a good rank of periodicity in both yeasts in order to ensure the quality of 
+their peak expressions data along the cell cycle. The \emph{S. Pombe} genes, with their corresponding \emph{S. Cerevisiae} 
+orthologs in parentheses are: \emph{ssb1 }(RFA1), \emph{cdc22} (RNR1),\emph{ msh6 }(MSH6), \emph{psm3 }(SMC3), \emph{rad21 
+}(MCD1), \emph{cig2 }(CLN2),\emph{ mik1 }(SWE1), \emph{h3.3 }(HHT2),\emph{ hhf1 }(HHF1), \emph{hht3 }(HHT1), \emph{hta2 }(HTA2), 
+\emph{htb1 }(HTB2), \emph{fkh2 }(FKH1), \emph{chs2} (CHS2),\emph{ sid2} (DBF2) and \emph{slp1 }(CDC20).\\
+
+We test if the order given by the \emph{S. Cerevisiae} genes is maintained by the corresponding \emph{S. Pombe} orthologs. 
+The order for the \emph{S. Cerevisiae} genes is taken from the values given in the comprehensive database by \citet{Gau07} 
+available at \emph{\url{http://www.cyclebase.org}}. The \emph{S. Pombe} data comes from 10 experiments conducted by different 
+biologists: 3 of them by \citet{Ol05} , 2 by \citet{Pen05} and 5 by \citet{Rus04}. The unrestricted phase angle values for these 
+\emph{S. Pombe} data have been obtained using the Random Periods Model developed in \citet{Liu04}. All these data are in a 
+matrix named \code{cirgenes} where each column is an experiment and each row is a gene, see Table~\ref{data}. The genes are 
+ordered according to their corresponding \emph{S. Cerevisiae} orthologs.\\
+
+We test the \emph{S. Cerevisiae} order in each of the $10$ \emph{S. Pombe} experiments. Suppose $\phi_i$ denotes the phase 
+angle of gene \emph{i} in \emph{S. pombe} then the hypotheses of interest is:\\
+
+\begin{equation}
+  \begin{array}{l}
+H_{0}: 
+\phi_{ssb1}\preceq\phi_{cdc22}\preceq\phi_{msh6}\preceq\phi_{psm3}\preceq\phi_{rad21}\preceq\phi_{cig2}\preceq\phi_{mik1}\preceq\phi_{h3.3}\preceq\\ 
+\hspace{0.7cm}\preceq\phi_{hhf1}\preceq\phi_{hht3}\preceq\phi_{hta2}\preceq\phi_{htb1}\preceq\phi_{fkh2}\preceq\phi_{chs2}\preceq\phi_{sid2}\preceq\phi_{slp1}\preceq\phi_{ssb1}\\
+\\ 
+H_{1}: H_{0} \textrm{ is not true}. \end{array} \end{equation} \\ We begin with the following code to implement isocir for 
+obtaining CIRE and the SCE values for each of the above 16 genes in the 10 experiments. Results are summarized in 
+Table~\ref{SCEyCIRE}.\\
+
+% CHUNK 8 
+<<eval=FALSE>>= 
+ data(cirgenes) 
+ resultIsoCIRE <- matrix(ncol = ncol(cirgenes), nrow = nrow(cirgenes))
+ SCEs <- NULL
+ for (i in 1:ncol(cirgenes)) {
+     genes <- as.numeric(cirgenes[!is.na(cirgenes[,i ]), i ])
+     rCIRE <- CIREi(cbind(genes))
+     resultIsoCIRE[!is.na(cirgenes[,i ]), i ] <- as.vector(rCIRE$CIRE,
+         mode = "numeric")
+     SCEs[i] <- rCIRE$SCE
+ }
+@
+
+Now, we use the \emph{CTi} function to perform the conditional test in each of the 10 experiments. Notice that we have no 
+replications here since the experiments were not performed under the same experimental conditions. So for this example we 
+consider $\kappa$ values obtained from the calculations made in \citet{Fer11}. The following code gives the p-values for each 
+experiment using the asymptotic distribution of the conditional test. Results are summarized in Table~\ref{SCEyCIRE}.\\
+
+ % CHUNK 9 
+<<eval=FALSE>>= 
+kappas<-c(3.958, 3.030, 1.788, 22.475, 14.520, 21.767, 8.607, 
+          14.143, 5.945, 14.284) 
+pvalues<-NULL 
+for (i in 1:ncol(cirgenes)){ 
+  genes <- as.numeric(cirgenes[!is.na(cirgenes[,i ]), i ])
+  k<-kappas[i] 
+  pvalues[i]<-CTi(cbind(genes),kappa=k) 
+  } 
+@
+
+From the p-values in Table~\ref{SCEyCIRE}, we see that we cannot reject the null hypothesis that the isotropic order is 
+conserved between the two species of yeasts in any of the 10 experiments. Therefore, it seems plausible that the peak 
+expressions of these 16 genes in \emph{S. Pombe} follow the same order as in \emph{S. Cerevisiae}, which is a very interesting 
+conclusion for evolutionary biologists.\\
+
+\section[Conclusions]{Conclusions} \label{Conclusions} 
+
+In this paper the \proglang{R} package \pkg{isocir} has been presented. This package provides useful tools for making inferences
+for circular data under order restrictions. The first of the two main functions computes CIRE, the circular version of the
+widely known isotonic regression in $R^q$. The second one is designed for testing isotropic hypotheses using a conditional test.
+We have provided the step by step execution of these functions with the \pkg{isocir} package. Although we illustrated the
+proposed methodology using an example from cell biology, the proposed software can be applied to a wide range of contexts.  For
+example, biologists working on circadian clock may be interested in the testing for the conservation of isotropic order among
+circadian genes between two tissues (e.g. \citet{Liu06}). Similarly, an endocrinologist, studying the order of peak values of
+various hormones in women during ovulation under different treatment
+conditions, may find the proposed software useful.\\
+
+We also want to stress that circular data under restrictions is a field widely open to new developments both in the methods and 
+in implementation. Therefore, it is to be expected that new analysis methods that can lead to new \proglang{R} packages or 
+functions that may appear in the near future.\\
+
+\section*{Acknoledgments}
+SB's, MAF's and CR's research was partially supported by Spanish MCI grant MTM2009-11161. SDP's research was supported by the
+Intramural Research Program of the National Institutes of Health, National Institute of Environmental Health Sciences [Z01
+ES101744-04].
+
+\bibliography{library1}
+
+\clearpage
+
+\begin{sidewaystable}[h]
+\caption{Initial \emph{S. Pombe} phase angle data for each
+experiment} \centering
+\renewcommand{\arraystretch}{1.75}
+
+\small{ \scalebox {0.9 }[1.1 ]{
+\begin{tabular}{| l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c |}
+\addlinespace \hline
+ &\multicolumn{16}{|c|}{Genes}\\
+ \hline
+\emph{\textbf{  Experiments}}&  \textbf{ssb1} &   \textbf{cdc22}&   \textbf{msh6 } & \textbf{ psm3 } &  \textbf{rad21}& \textbf{
+cig2 }& \textbf{mik1} & \textbf{  h3.3} &   \textbf{hhf1} & \textbf{  hht3} &  \textbf{ hta2 }& \textbf{ htb1 }& \textbf{fkh2} &
+\textbf{chs2}
+&\textbf{sid2}& \textbf{slp1}\\
+\hline \textbf{1.Oliva cdc}& 0.202 & 0.217& 6.261& 5.764& 0.892& 5.611& 6.257& 1.178& 0.911& 1.201& 0.971& 1.288& 5.298& 5.596& 4.251& 5.209\\
+\hline\textbf{2.Oliva elut1}& 2.939& 3.261& 2.810& 2.848& 1.603& 2.381& 1.709& 4.689&4.355& 4.717& 4.418& 4.397& 1.601& 1.819&
+1.751&2.518\\
+\hline \textbf{3.Oliva elut2}& 0.440& 0.447& 5.257& 6.206& 4.381& 5.458& 6.044& 1.541& 0.727& 6.114& 0.351& 0.687& 3.935& 3.970&
+5.835&
+5.895\\
+\hline \textbf{4.Peng cdc} & 3.327& 3.565& 3.387& 2.806& 3.193& 3.260& 3.026& 4.778& 4.693& 4.755& 4.816& 4.675& 2.685& 2.769&
+2.885&
+2.421\\
+\hline \textbf{5.Peng elut}& 3.333& 3.912& 3.894& 3.443& 3.647& 3.969& 4.296& 5.188& 5.059& 5.143& 5.215& 5.243& 3.338& 3.607&
+3.082&
+3.185\\
+\hline \textbf{6.Rust cdc1}& 1.965 &2.151& 2.033& 2.028& 1.741& 2.072& 1.730& 3.129& 2.993& 3.085& 3.063& 2.872& 1.281& 1.178&
+1.905&
+1.236\\
+\hline \textbf{7.Rust cdc2}& 1.809& 2.207& 1.414& 1.351& 1.963& 1.940& 1.978& 3.744& 3.584& 3.669& 3.479& 3.590& 1.382& 1.455&
+1.063&
+1.396\\
+\hline \textbf{8.Rust elut1 }&--- &1.457& 1.288&--- &1.529& 1.373& 1.379& 2.420& 2.278& 2.409& 2.311& 2.245& 1.010& 1.146&--- &1.090\\
+\hline \textbf{9.Rust elut2 }&2.213& 1.786& 1.730& 1.987& 1.878& 1.882& 3.071& 2.704& 2.787& 2.814& 2.908& 2.739& 1.351& 1.441&
+1.275&
+1.420\\
+\hline \textbf{10.Rust elut3}& 2.340& 2.701& 2.703 &2.525& 2.978& 2.319& 2.284& 3.773& 3.567& 3.636& 3.465& 3.431& 1.981& 1.716&
+2.523&
+2.118\\
+\hline
+\end{tabular}
+}}
+ \label{data}
+\end{sidewaystable}
+
+\clearpage
+
+\begin{sidewaystable}[h]
+ \caption{CIRE, SCE and p-values for each experiment} \centering
+\renewcommand{\arraystretch}{1.75}
+\small{ \scalebox {0.9 }[1.1 ]{
+\begin{tabular}{| l | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c | c |c|}
+\addlinespace \hline
+ & \multicolumn{16}{|c|}{CIRE under Isotropic Order}&SCE&p-value\\
+ \hline
+\emph{\textbf{  Experiments}} & $\widetilde{\theta}_{1}$ & $\widetilde{\theta}_{2}$ & $\widetilde{\theta}_{3}$ &
+$\widetilde{\theta}_{4}$ & $\widetilde{\theta}_{5}$ & $\widetilde{\theta}_{6}$ & $\widetilde{\theta}_{7}$ &
+$\widetilde{\theta}_{8}$ & $\widetilde{\theta}_{9}$ & $\widetilde{\theta}_{10} $
+ & $\widetilde{\theta}_{11}$ & $\widetilde{\theta}_{12}$ & $\widetilde{\theta}_{13}$ & $\widetilde{\theta}_{14}$ & $\widetilde{\theta}_{15}$ & $\widetilde{\theta}_{16}$& &\\
+\hline \textbf{1.Oliva cdc}&6.256 &6.256& 6.256& 6.256& 0.054& 0.054& 0.054& 1.045 & 1.045& 1.085& 1.085&1.288& 5.069& 5.069& 5.069& 5.209 & \textcolor[rgb]{0.00,0.59,0.00}{1.269} & \textcolor[rgb]{1.00,0.00,0.00}  { 0.346}\\
+\hline \textbf{2.Oliva elut1}&2.526 &2.526& 2.526& 2.526& 2.526&2.526& 2.526&  4.516& 4.515& 4.515&4.515&4.515& 1.600& 1.785& 1.785& 2.518 & \textcolor[rgb]{0.00,0.59,0.00}{1.217} & \textcolor[rgb]{1.00,0.00,0.00}  { 0.767}\\
+\hline \textbf{3.Oliva elut2}&5.849 &5.849& 5.849& 5.849& 5.849& 5.849& 6.044&  0.598& 0.598& 0.598& 0.598&0.687& 3.935& 3.970& 5.835& 5.849 & \textcolor[rgb]{0.00,0.59,0.00}{2.666} & \textcolor[rgb]{1.00,0.00,0.00}  { 0.299}\\
+\hline \textbf{4.Peng cdc}&3.224 &3.224& 3.224& 3.224& 3.224& 3.224& 3.224&  4.736& 4.736& 4.748& 4.748&4.748& 2.685& 2.692& 2.692& 2.692 & \textcolor[rgb]{0.00,0.59,0.00}{0.247} & \textcolor[rgb]{1.00,0.00,0.00}  { 0.432}\\
+\hline \textbf{5.Peng elut}&3.333& 3.724& 3.724& 3.724& 3.724& 3.969& 4.296&  5.124& 5.124& 5.143& 5.215&5.243& 3.302& 3.302& 3.302& 3.302 & \textcolor[rgb]{0.00,0.59,0.00}{0.155} & \textcolor[rgb]{1.00,0.00,0.00}  { 0.717}\\
+\hline\textbf{6.Rust cdc1}&1.960 &1.960& 1.960& 1.960& 1.960& 1.960& 1.960&  3.028& 3.028& 3.028& 3.028&3.028& 1.230& 1.230& 1.571& 1.571 & \textcolor[rgb]{0.00,0.59,0.00}{0.213} & \textcolor[rgb]{1.00,0.00,0.00}  { 0.679}\\
+\hline \textbf{7.Rust cdc2}&1.692& 1.692& 1.692& 1.692& 1.951& 1.951& 1.978&  3.613& 3.613& 3.613& 3.613&3.613& 1.301& 1.301& 1.301& 1.396 & \textcolor[rgb]{0.00,0.59,0.00}{0.296} & \textcolor[rgb]{1.00,0.00,0.00}  { 0.885}\\
+\hline \textbf{8.Rust elut1 }&---& 1.372 &1.372&---&1.427 &1.427 &1.427 &2.332 &2.332 &2.332 &2.332 &2.332 &1.010 &1.118&--- &1.118 &  \textcolor[rgb]{0.00,0.59,0.00}{0.028} & \textcolor[rgb]{1.00,0.00,0.00} { 0.999}\\
+\hline \textbf{9.Rust elut2 }&1.908 &1.908& 1.908& 1.915& 1.915& 1.915& 2.837&  2.837& 2.837& 2.837& 2.837&2.837& 1.351& 1.358& 1.358& 1.420 & \textcolor[rgb]{0.00,0.59,0.00}{0.124} & \textcolor[rgb]{1.00,0.00,0.00}  { 0.999}\\
+\hline \textbf{10.Rust elut3}&2.340& 2.585& 2.585& 2.585& 2.585& 2.585& 2.585&  3.574& 3.574& 3.574&3.574&3.574& 1.848& 1.848& 2.320& 2.320 & \textcolor[rgb]{0.00,0.59,0.00}{0.268} & \textcolor[rgb]{1.00,0.00,0.00} { 0.742} \\
+\hline
+\end{tabular}
+} }
+ \label{SCEyCIRE}
+\end{sidewaystable}
+
+\clearpage
+
+
+\end{document}
