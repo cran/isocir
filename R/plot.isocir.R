@@ -1,11 +1,11 @@
 
-plotcircularm <- function(x, pch=16, cex=1, stack=FALSE, axes=TRUE, sep=0.025, shrink=1, bins=NULL, ticks=FALSE, tcl=0.025, tcl.text=0.125, col=NULL, tol=0.04, uin=NULL, xlim=c(-1, 1), ylim=c(-1, 1), digits=2, units=NULL, template=NULL, zero=NULL, rotation=NULL, main=NULL, sub=NULL, xlab="", ylab="", control.circle=circle.control(), ...) {
+"plot.isocir" <- function(x, option=c("CIRE","cirmeans"), cex=1, stack=TRUE, axes=TRUE, sep=0.025, shrink=1, bins=300, ticks=FALSE, tcl=0.025, tcl.text=0.125, col=NULL, tol=0.04, uin=NULL, xlim=c(-1, 1), ylim=c(-1, 1), digits=2, units=NULL, template=NULL, zero=NULL, rotation=NULL, main=NULL, sub=NULL, xlab="", ylab="", control.circle=circle.control(), ...) {
 
-# DATE WRITTEN: 1 Dic 2010          LAST REVISED:  11 Ene 2010
+# DATE WRITTEN: 1 Dic 2010          LAST REVISED:  09 Jan 2012
 # AUTHOR: Sandra Barragan based on the code of Ulric Lund and Claudio Agostinelli
-# DESCRIPTION: This is an auxiliary function to enable CIREi to do graphics.
+# DESCRIPTION: This is an auxiliary function to enable class isocir to be plotted.
 # REFERENCE: It is mainly based on some functions of the package circular (by Ulric Lund and Claudio Agostinelli) but with some changes.
-# SEE ALSO: CIREi, cirPAVA, cirmean, cirSCE.
+# SEE ALSO: CIRE, cond.test.
 
 
 CirclePlotRad <- function(xlim=c(-1,1), ylim=c(-1,1), uin=NULL, shrink=1, tol=0.04, main=NULL, sub=NULL, xlab=NULL, ylab=NULL, control.circle=circle.control()) {
@@ -83,6 +83,21 @@ PointsCircularmRad <- function(x, bins, stack, col, pch, iseries, nseries, sep, 
 } # function Points
 
 
+   if(class(x)!= "isocir"){stop("The argument x must be a object of class isocir")}
+   option <- match.arg(option)
+   if(option=="CIRE"){
+    x <- unlist(x$CIRE)
+    main="Circular Isotonic Regression Estimator"
+    col=2
+   }
+   else if(option=="cirmeans"){
+    x <- unlist(x$cirmeans)
+    main="Unrestricted Estimator"
+    col=1
+   }
+   else{stop("option must be CIRE or cirmeans")}
+
+   pch <- c(1:length(x))
 
    if (is.matrix(x) | is.data.frame(x)) {
       nseries <- ncol(x)
@@ -91,7 +106,7 @@ PointsCircularmRad <- function(x, bins, stack, col, pch, iseries, nseries, sep, 
    }
    xx <- as.data.frame(x)
   
-   xcircularp <- attr(as.circular(xx[,1]), "circularp")
+   xcircularp <- attr(suppressWarnings(as.circular(xx[,1])), "circularp")
    type <- xcircularp$type
    modulo <- xcircularp$modulo
    if (is.null(units)) 
@@ -148,7 +163,7 @@ if(length(pch)==1){pch <- rep(pch, nseries, length.out=nseries)}
       x <- na.omit(x)
       n <- length(x)      
       if (n) {
-         x <- conversion.circular(x, units="radians", modulo=modulo)
+         x <- suppressWarnings(conversion.circular(x, units="radians", modulo=modulo))
          attr(x, "circularp") <- attr(x, "class") <- NULL
          if (rotation=="clock")
             x <- -x

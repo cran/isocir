@@ -1,0 +1,45 @@
+==================
+= Library isocir =
+==================
+
+Version 1.1, 16/04/2012
+
+Removed the functions cirmean, cirkappa since analogous functions
+are available in an existing package circular.
+
+Rewrited all the remaining functions to improve their speed.
+Renamed most of the functions for clarity as follows:
+
+CIREi --> CIRE
+CTi -->cond.test
+cirSCE --> sce
+plotcircularm --> plot.isocir
+
+Changed the names of two arguments of former CIREi function:
+- from isotropic to circular
+- from levels to groups.
+
+Changed the name of the argument of former CTi function
+from levels to groups.
+
+Added isocir/src/funCIRE.C in order to improve the speed of CIRE.
+
+Created the S3 class isocir and the methods: isocir, is.isocir,
+print.isocir and plot.isocir, related to this class.
+
+Generated again the random data set with replications
+that is called datareplic.
+
+=================
+Version 1.0, 27/04/2010
+Released the version 1.0 in the CRAN.
+
+
+
+
+Sandra Barragan
+Departmento de Estadistica e Investigacion Operativa
+Universidad de Valladolid
+Spain
+http://www.eio.uva.es/~sandra
+<sandraba@eio.uva.es>

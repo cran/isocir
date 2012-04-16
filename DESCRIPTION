@@ -1,15 +1,15 @@
 Package: isocir
-Version: 1.0
+Version: 1.1
 Title: Isotonic Inference for Circular data
 Depends: combinat, circular
-Author: The implementation in R was done by Sandra Barragan based on
-        the SAS routines written by Miguel A. Fernandez.
-Maintainer: Sandra Barragan <sandraba@eio.uva.es>
-Description: This is a package to make isotonic inference for circular
+Author: Sandra Barragán and Miguel A. Fernández.
+Maintainer: Sandra Barragán <sandraba@eio.uva.es>
+Description: This is a package to draw isotonic inference for circular
         data.
 License: GPL (>= 3)
+BuildVignettes: false
+Encoding: latin1
+Collate: zzz.R CIRE.R sce.R cond.test.R mrl.R plot.isocir.R isocir.R
+Packaged: 2012-04-16 08:59:47 UTC; Sandra
 Repository: CRAN
-Date/Publication: 2011-04-27 16:12:33
-Collate: First.lib.R CIREi.R cirmean.R cirSCE.R CTi.R cirkappa.R mrl.R
-        plotcircularm.R
-Packaged: 2011-04-27 07:03:12 UTC; Sandra
+Date/Publication: 2012-04-16 08:59:43

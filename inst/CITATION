@@ -1,0 +1,19 @@
+citHeader("To cite package 'isocir' in publications use:")
+
+year <- 2012
+
+vers <- paste("R package version", meta$Version)
+
+citEntry(entry="Manual",
+         title = "isocir: Isotonic Inference for Circular Data",
+         author = personList(as.person("S. Barragán"), as.person("M. A. Fernández")),
+         year = year,
+         note = vers,
+
+         textVersion =
+         paste("S. Barragán and M. A. Fernández (",
+               year,
+               "). isocir: Isotonic Inference for Circular Data. ",
+               vers, ".", sep=""))
+
+

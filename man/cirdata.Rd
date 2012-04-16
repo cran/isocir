@@ -2,7 +2,7 @@
 \alias{cirdata}
 
 \docType{data}
-\title{Random Circular data.}
+\title{Random Circular Data.}
 
 \description{An example data set.   The data have been created randomly for the purpose of running some examples of the functions of the package \bold{isocir}.}
 
@@ -25,7 +25,7 @@ Mardia, K. and Jupp, P. (2000).
 
 
 \examples{
-data(rancir)
+data(cirdata)
 }
 
 \keyword{datasets}

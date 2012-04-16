@@ -1,9 +1,17 @@
-
-
+  @Article{isotone,
+    title = {Isotone Optimization in \proglang{R}: Pool-Adjacent-Violators Algorithm (PAVA) and Active Set Methods},
+    author = {Jan de Leeuw and Kurt Hornik and Patrick Mair},
+    journal = {Journal of Statistical Software},
+    year = {2009},
+    volume = {32},
+    number = {5},
+    pages = {1--24},
+    url = {http://www.jstatsoft.org/v32/i05/},
+  }
 
 @ARTICLE{Gau07,
-author = {N.P. Gauthier},
-year = 2007,
+author = {Gauthier,N. and Larsen, M.E. and Wernersson,R. and de Lichtenberg,U. and Jensen,L.J. and Brunak,S. and Jensen,T.S.},
+year = 2008,
 title = {Cyclebase.org - A Comprehensive Multi-Organism Online Database of Cell-Cycle Experiments},
 journal = {Nucleic Acids Research},
 volume = 36,
@@ -11,29 +19,26 @@ pages = {854--859},
 url={http://www.cyclebase.org /}
 }
 
-
-
 @ARTICLE{Liu04,
-author = {D. Liu and D.M.  Umbach and S.D. Peddada and L. Li and P.W. Crockett and C.R. Weinberg},
+author = {Liu, D. and Umbach, D.M. and Peddada, S.D. and Li, L. and Crockett, P.W. and Weinberg, C.R.},
 year = 2004,
 title = {A Random Periods Model for Expression of Cell-Cycle Genes},
-journal = {The National Academy of Sciences of the USA},
+journal = {PNAS},
 volume =101,
 number=19,
 pages = {7240--7245}
 }
 
 @BOOK{Mar00,
-author = {K. Mardia and P. Jupp},
+author = {Mardia, K. and Jupp, P.},
 year = 2000,
 title = {Directional Statistics},
-publisher = {Wiley},
+publisher = {John Wiley \& Sons},
 adress={New York}
 }
 
-
 @ARTICLE{Ol05,
-author = {A. Oliva and A. Rosebrock and F. Ferrezuelo and S. Pyne and H. Chen and S. Skiena and B. Futcher and J. Leatherwood},
+author = {Oliva, A. and Rosebrock, A. and Ferrezuelo, F. and Pyne, S. and Chen, H. and Skiena, S. and Futcher, B. and Leatherwood, J.},
 year = 2005,
 title = {The Cell-Cycle-Regulated Genes of Schizosaccharomyces Pombe},
 journal = {Plos. Biology},
@@ -50,21 +55,21 @@ volume =16,
 pages={1026--1042}
 }
 
-
-
-@ARTICLE{Rcore04,
-author = {\proglang{R} Development Core Team},
-year = 2004,
-title = {\proglang{R}: A Language and Environment for Statistical Computing},
-journal = {\proglang{R} Foundation for Statistcal Computing, Vienna, Austria},
-url={http://www.R-project.org/}
-}
+  @Manual{Rcore04,
+    title = {\proglang{R}: A Language and Environment for Statistical Computing},
+    author = {\proglang{R} Development Core Team},
+    organization = {\proglang{R} Foundation for Statistical Computing},
+    address = {Vienna, Austria},
+    year = {2011},
+    note = {{ISBN} 3-900051-07-0},
+    url = {http://www.R-project.org},
+  }
 
 @BOOK{Rob88,
 author = {Robertson, T. and Wright, F.T. and Dykstra, R.L.},
 year = 1988,
 title = {Order Restricted Statitical Inference},
-publisher = {Wiley},
+publisher = {John Wiley \& Sons},
 adress ={New York}
 }
 
@@ -80,9 +85,9 @@ pages={645--651}
 
 
 @ARTICLE{Rue09,
-author = {Rueda, C. and Fernandez, M.A. and Peddada, S.},
+author = {Rueda, C. and Fern\'andez, M.A. and Peddada, S.},
 year = 2009,
-title = {Estimation of Parameters Subject to Order Restrictions on a Circle with Application to Estimation of Phase Angles of Cell-cycle Genes},
+title = {Estimation of Parameters Subject to Order Restrictions on a Circle with Application to Estimation of Phase Angles of Cell-Cycle Genes},
 journal = {Journal of the American Statistical Association},
 volume =104,
 number=485,
@@ -98,14 +103,6 @@ volume =36,
 pages={809--817}
 }
 
-@BOOK{Sil04,
-author = {Silvapulle, M.J. and Sen, P.K.},
-year = 2004,
-title = {Constrained Statistical Inference. Inequality, Order and Shape Restrictions},
-publisher = {Wiley},
-adress ={New York}
-}
-
 @BOOK{Jam01,
 author = {Jammalamadaka, S.R. and SenGupta, A.},
 year = 2001,
@@ -114,104 +111,83 @@ publisher = {World Scientific}
 }
 
 @ARTICLE{Fer11,
-author = {Fernandez, M.A. and Rueda, C. and Peddada, S.D.},
-year = 2011,
-title = {Isotropic Order among Core Set of Orthologs Conserved between Budding and Fission Yeast},
-journal = {Preprint}
+author = {Fern\'andez, M.A. and Rueda, C. and Peddada, S.D.},
+year = 2012,
+title = {Identification of a core set of signature cell cycle genes whose relative order of time to peak expression is conserved across species},
+journal = {Nucl. Acids Res. },
+volume =40,
+number=7,
+pages={2823--2832},
+url = {http://nar.oxfordjournals.org/content/40/7/2823}
 }
 
-@ARTICLE{Whit02,
-author = {Whitfield, M.L. and Sherlock, G. and Saldanha, A. and Murray, J. and Ball, C. and Alexander, K. and Matese, J. and Perou, C. and hurt, M. and Brown, P. and Botsein, D.},
-year = 2002,
-title = {Identification of Genes Periodically Expressed in the Human Cell Cycle and Their Expression in Tumors},
-journal = {Molecular Biology of the Cell},
-volume =13,
-pages={1977--2000}
-}
+@Manual{circular,
+    title = {\pkg{circular}: Circular Statistics},
+    author = {C. Agostinelli and U. Lund},
+    address = {CA: Department of Environmental Sciences, Informatics
+      and Statistics, Ca' Foscari University, Venice, Italy. UL:
+      Department of Statistics, California Polytechnic State
+      University, San Luis Obispo, California, USA},
+    year = {2011},
+ note = {\proglang{R} package version 0.4-3},
+    url = {https://r-forge.r-project.org/projects/circular/},
+  }
 
-@BOOK{circular,
-author = {Lund, U. and Agostinelli, C.},
-year = 2010,
-title = {\pkg{circular}: Circular Statistics},
-publisher = {\proglang{R} package version 1.1},
-URL={http://cran.r-project.org/web/packages/circular/index.html}
-}
-
-@BOOK{combinat,
+@Manual{combinat,
 author = {Chasalow, S.},
 year = 2010,
-title = {\pkg{combinat}: combinatorics utilities},
-publisher = {\proglang{R} package version 	0.0-8},
-URL={http://cran.r-project.org/web/packages/combinat/index.html}
+title = {\pkg{combinat}: Combinatorics Utilities},
+note = {\proglang{R} package version 0.0-8},
+URL={http://CRAN.R-project.org/package=combinat}
 }
 
-@BOOK{isotone,
-author = {de Leeuw, J. and Hornik, K. and Mair, P.},
-year = 2011,
-title = {\pkg{isotone}: Active set and generalized PAVA for isotone optimization},
-publisher = {\proglang{R} package version 1.0-1},
-URL={http://cran.r-project.org/web/packages/isotone/index.html}
-}
-
-@BOOK{Iso,
+@Manual{Iso,
 author = {Turner, R.},
 year = 2009,
-title = {\pkg{Iso}: Functions to perform isotonic regression},
-publisher = {\proglang{R} package version 	0.0-8},
-URL={http://cran.r-project.org/web/packages/Iso/index.html}
+title = {\pkg{Iso}: Functions to Perform Isotonic Regression},
+note= {\proglang{R} package version  0.0-8},
+URL={http://CRAN.R-project.org/package=Iso}
 }
 
-@BOOK{bisoreg,
+@Manual{bisoreg,
 author = {Curtis, S. M.},
 year = 2010,
 title = {\pkg{bisoreg}: Bayesian Isotonic Regression with Bernstein Polynomials},
-publisher = {\proglang{R} package version 1.0},
-URL={http://cran.r-project.org/web/packages/bisoreg/index.html}
+note = {\proglang{R} package version 1.0},
+URL={http://CRAN.R-project.org/package=bisoreg}
 }
 
-
-@BOOK{ordMonReg,
+@Manual{ordMonReg,
 author = {Balabdaoui, F. and Rufibach, K. and Santambrogio, F.},
 year = 2009,
-title = {\pkg{OrdMonReg}: Compute least squares estimates of one bounded or two ordered isotonic regression curves},
-publisher = {\proglang{R} package version 	1.0.2},
-URL={http://cran.r-project.org/web/packages/OrdMonReg/index.html}
+title = {\pkg{OrdMonReg}: Compute Least Squares Estimates of One Bounded or Two Ordered Isotonic Regression Curves},
+note = {\proglang{R} package version 1.0.2},
+URL={http://CRAN.R-project.org/package=OrdMonReg}
 }
 
-
-@BOOK{ORIClust,
-author = {Liu, T. and  Lin, N. and  Shi, N. and Zhang, B.},
-year = 2009,
-title = {\pkg{ORIClust}: Order-restricted Information Criterion-based Clustering Algorithm},
-publisher = {\proglang{R} package version 	1.0-1},
-URL={http://cran.r-project.org/web/packages/ORIClust/index.html}
-}
-
-
-@BOOK{OrdFacReg,
+@Manual{OrdFacReg,
 author = {Rufibach, K.},
 year = 2010,
-title = {\pkg{OrdFacReg}: Least squares, logistic, and Cox-regression with ordered predictors},
-publisher = {\proglang{R} package version 	1.0.2},
-URL={http://cran.r-project.org/web/packages/OrdFacReg/index.html}
+title = {\pkg{OrdFacReg}: Least Squares, Logistic, and Cox-Regression with Ordered Predictors},
+note = {\proglang{R} package version 	1.0.2},
+URL={http://CRAN.R-project.org/package=OrdFacReg}
 }
 
-@BOOK{CircStats,
-author = {Agostinelli, C.},
+@Manual{CircStats,
+author = {Lund, U. and Agostinelli, C.},
 year = 2009,
-title = {\pkg{CircStats}: Circular Statistics, from "Topics in circular Statistics" (2001)},
-publisher = {\proglang{R} package version 	0.2-4},
-URL={http://cran.r-project.org/web/packages/CircStats/index.html}
+title = {\pkg{CircStats}: Circular Statistics, from "Topics in Circular Statistics" (2001)},
+note = {\proglang{R} package version 	0.2-4},
+URL={http://CRAN.R-project.org/package=CircStats}
 }
 
-@BOOK{CircSpatial,
-author = {Morphet, C.},
-year = 2009,
-title = {\pkg{CircSpatial}: Functions For Circular Spatial Data},
-publisher = {\proglang{R} package version 	1.0-1},
-URL={http://cran.r-project.org/web/packages/CircSpatial/index.html}
-}
-
+ @Manual{CircSpatial,
+    title = {\pkg{CircSpatial}: Functions For Circular Spatial Data},
+    author = {Morphet, C.},
+    year = {2009},
+    note = {\proglang{R} package version 1.0-1},
+    url = {http://CRAN.R-project.org/package=CircSpatial},
+  }
 
 @ARTICLE{Ped07,
 author = {Peddada, S.D. and Dinse, G.E. and Kissling, G.E.},
@@ -244,22 +220,13 @@ pages={99--109}
 author = {Berens, P.},
 year = 2009,
 title = {CircStat: A MATLAB Toolbox for Circular Statistics},
-journal = {Journal of Statistical Softare},
+journal = {Journal of Statistical Software},
 volume =31,
  number =	"10",
   pages =	"1--21",
   URL =  	"http://www.jstatsoft.org/v31/i10"
 }
 
-
-@ARTICLE{Ara97,
-author = {Aradottir, A.L. and Robertson, A. and Moore, E.},
-year = 1997,
-title = {Circular Statistical Analysis of Birch Colonization and the Directional Growth Response of Birch and Black Cottonwood in South Iceland},
-journal = {Agricultural and Forest Meteorology},
-volume =82,
-pages={179--186}
-}
 
 @ARTICLE{Bol03,
 author = {Boles, L.C. and Lohmann, K.J.},
@@ -297,19 +264,29 @@ volume =304,
 pages={405--408}
 }
 
+@ARTICLE{Cer11,
+author = {Cermakian, N. and Lamont, E.W. and Bourdeau, P. and Boivin, D.B.},
+year = 2011,
+title = {Circadian Clock Gene Expression in Brain Regions of Alzheimer's
+Disease Patients and Control Subjects},
+journal = {Journal of Biological Rhythms},
+volume =26,
+pages={160--170}
+}
+
 @ARTICLE{Has88,
 author = {Haskey, J.C.},
 year = 1988,
-title = {The Relative Orientation of Addresses of Spouses Before Their Marriege: An Analysis of Circular Data},
+title = {The Relative Orientation of Addresses of Spouses before Their Marriage: An Analysis of Circular Data},
 journal = {Journal of Applied Statistics},
 volume =15,
 pages={183}
 }
 
-@ARTICLE{Kub07,
+@ARTICLE{Kib07,
 author = {Kibiak, T. and Jonas, C.},
 year = 2007,
-title = {Appliying Circular Statistics to the Analysis of Monitoring Data},
+title = {Applying Circular Statistics to the Analysis of Monitoring Data},
 journal = {European Journal of Psychological Assessment},
 volume =23,
 pages={227--237}
@@ -318,7 +295,7 @@ pages={227--237}
 @ARTICLE{Le03,
 author = {Le, C.T. and Liu, P. and Lindgren, B.R. and Daly, K.A. and Giebind, G.S.},
 year = 2003,
-title = {Some Statistical Methods for Investigating the Date of Birth as a Disease Indicator},
+title = {Some Statistical Methods for Investigating the Date of Birth As a Disease Indicator},
 journal = {Statistics in Medicine},
 volume =22,
 pages={2127--2135}
@@ -337,7 +314,7 @@ pages={1551--1555}
 @ARTICLE{vDo00,
 author = {van Doorn, E. and Dhruva, B. and Sreenivasan, K.R. and Cassella, V.},
 year = 2000,
-title = {Statistics of Wind Direction and its Increments},
+title = {Statistics of Wind Direction and Its Increments},
 journal = {Physics of Fluids},
 volume =12,
 pages={1529--1534}
@@ -346,9 +323,19 @@ pages={1529--1534}
 @ARTICLE{Liu06,
 author = {Liu, D. and Peddada, S.D. and Li, L. and Weinberg, C.R.},
 year = 2006,
-title = {Phase analysis of circadian-related genes in two tissues},
+title = {Phase Analysis of Circadian-Related Genes in Two Tissues},
 journal = {BMC Bioinformatics},
 volume =7,
 pages={87}
 }
+
+@ARTICLE{Jen06,
+author = {Jensen, J.L. Jensen, T.S. and Lichtenberg, U. and Brunak, S. and Bork, P.},
+year = 2006,
+title = {Co-evolution of transcriptional and post-translational cell-cycle regulation},
+journal = {Nature},
+volume =443,
+pages={594--597}
+}
+
 

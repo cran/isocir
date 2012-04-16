@@ -18,7 +18,7 @@ It is supposed that we have \emph{n} replications for each population.
 \deqn{\overline{R}=\sqrt{S^{2}+C^{2}}}{R=sqrt(S_^2+C^2)}
 \deqn{where\hspace{0.5cm} S=\sum_{k=1}^{n}\sin{\theta_k}\hspace{0.5cm} and \hspace{0.5cm} C=\sum_{k=1}^{n}\cos{\theta_k}}{S=sum_{k=1}^{n}(sin(theta_k)) and C=sum_{k=1}^{n}(cos(theta_k))}
 
-The argument \code{data} is a matrix with \emph{n} columns and \emph{q} rows, \emph{q} is the number of populations.
+The argument \code{data} could be a matrix with \emph{n} columns and \emph{q} rows, \emph{q} is the number of populations.  \code{data} could also be a vector.  For both cases the function \code{\link{rho.circular}} from the package \bold{circular} is used in the calculations.
 
 Missing values in the replications are allowed.
 }
@@ -26,7 +26,7 @@ Missing values in the replications are allowed.
 \item{mrl}{numeric vector of dimension \emph{q} with the mean resultant lengths. The \emph{i} element is the mean resultant lenght of the \emph{i} population which is in the row \emph{i} of the matrix \code{data}.}
 }
 
-\author{Author(s):  The implementation in R is done by Sandra \enc{Barragan}{Barragan} based on the SAS routine written by Miguel A. \enc{Fernandez}{Fernandez}.  Maintainer:  <sandraba@eio.uva.es>
+\author{Author(s):  Sandra Barragán.  Maintainer:  <sandraba@eio.uva.es>
 }
 
 \references{
@@ -34,17 +34,19 @@ Missing values in the replications are allowed.
 Mardia, K. and Jupp, P. (2000).
    \emph{Directional Statistics}, Chichester: Wiley.
 
-Rueda, C., \enc{Fernandez}{Fernandez}, M. A. and Peddada, S. D. (2009).
+Rueda, C., Fernandez, M. A. and Peddada, S. D. (2009).
   Estimation of parameters subject to order restrictions on a circle with application to estimation of phase angles of cell-cycle genes.
   \emph{Journal of the American Statistical Association}, \bold{104}, n485; pp 338--347.
   \url{http://pubs.amstat.org/doi/abs/10.1198/jasa.2009.0120}
 
-\enc{Fernandez}{Fernandez}, M. A., Rueda, C. and Peddada, S. D. (2011).
-   Isotropic order among core set of orthologs conserved between budding and fission yeasts. \emph{Prepint}.
+Fernandez, M. A., Rueda, C. and Peddada, S. D. (2011).
+   Identification of a core set of signature cell cycle genes whose relative order of time to peak expression is conserved across
+species, \emph{Nucl. Acids Res. gkr1077 first published online December 1, 2011 doi:10.1093/nar/gkr1077}.
+\url{http://nar.oxfordjournals.org/content/early/2011/11/30/nar.gkr1077}
 }
 
 \seealso{
-\code{\link{CIREi}}, \code{\link{cirmean}}, \code{\link{cirSCE}}, \code{\link{CTi}}, \code{\link{cirkappa}}.
+\code{\link{CIRE}}, \code{\link{sce}}, \code{\link{cond.test}}.
 }
 
 \examples{
