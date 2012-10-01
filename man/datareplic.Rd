@@ -28,6 +28,16 @@ Mardia, K. and Jupp, P. (2000).
 
 \examples{
 data(datareplic)
+
+# example testing the next order:
+orderGroups2 <- c(1:8)
+
+example2test <- cond.test(datareplic, groups = orderGroups2, bias = TRUE)
+example2test
+
+
+round(unlist(example2test$cirmeans), digits = 3)
+
 }
 
 \keyword{datasets}

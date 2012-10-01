@@ -2,6 +2,11 @@
 = Library isocir =
 ==================
 
+Version 1.1-1, 27/09/2012
+
+Some specific changes that make the package more user-friendly.
+
+=================
 Version 1.1, 16/04/2012
 
 Removed the functions cirmean, cirkappa since analogous functions

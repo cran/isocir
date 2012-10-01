@@ -20,7 +20,10 @@
     cat("   ", round(CIRE[[i]], decCIRE),"\n")  
    }
    cat("\n Sum of Circular Errors: SCE = ", round(x$SCE, decCIRE), "\n")
-   if(!is.null(x$cirmeans)){cat("Invisible: unrestricted circular means calling $cirmeans\n")}
+   if(!is.null(x$cirmeans)){
+     cat("Invisible: unrestricted circular means; these can be\n")
+     cat("obtained via $cirmeans\n")
+     }
    cat("\n")
    if(!is.null(x$pvalue)){pvalue <- round(x$pvalue, decpvalue)}
    if(!is.null(x$kappa)){kappa <- round(x$kappa, deckappa)}
@@ -28,8 +31,6 @@
     cat("pvalue = ", pvalue)    
     cat("\n kappa = ", kappa, "\n")
     cat(attr(x,"estkappa"), "\n\n")
-    #if(pvalue <= 0.1){cat("The order of the null hypothesis (set in levels) is REJECTED\n")}
-    #if(pvalue > 0.1){cat("The order of the null hypothesis (set in levels) cannot be rejected\n")}   
    }
    #NextMethod("print", x, ...)
    invisible(x)

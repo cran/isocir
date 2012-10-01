@@ -1,5 +1,5 @@
 Package: isocir
-Version: 1.1
+Version: 1.1-1
 Title: Isotonic Inference for Circular data
 Depends: combinat, circular
 Author: Sandra Barragán and Miguel A. Fernández.
@@ -10,6 +10,6 @@ License: GPL (>= 3)
 BuildVignettes: false
 Encoding: latin1
 Collate: zzz.R CIRE.R sce.R cond.test.R mrl.R plot.isocir.R isocir.R
-Packaged: 2012-04-16 08:59:47 UTC; Sandra
+Packaged: 2012-10-01 16:35:54 UTC; sandra
 Repository: CRAN
-Date/Publication: 2012-04-16 08:59:43
+Date/Publication: 2012-10-03 14:43:58

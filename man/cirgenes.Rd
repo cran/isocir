@@ -25,6 +25,11 @@ Initially, the data come from the experiments of Oliva et al. (2005), Peng et al
 }
 \references{
 
+Fernández, M. A., Rueda, C. and Peddada, S. D. (2012).
+    Identification of a core set of signature cell cycle genes whose relative order of time to peak expression is conserved across
+species, \emph{Nucl. Acids Res.} \bold{40}, n7: pp 2823--2832. doi:10.1093/nar/gkr1077.
+\url{http://nar.oxfordjournals.org/content/early/2011/11/30/nar.gkr1077}
+
 Gauthier, N. (2007). 
 Cyclebase.org - A Comprehensive Multi-Organism Online Database of Cell-Cycle Experiments.
 \emph{Nucleic Acids Research}. \bold{36}, pp 854--859. \url{http://www.cyclebase.org/}.
@@ -44,7 +49,6 @@ Peng, X., Karuturi, R., Miller, L., Lin, K., Jia, Y., Kondu, P., Wang, L., Wong,
 Rustici, G., Mata, J., Kivinen, K., Lio, P., Penkett, C., Burns, G., Hayles, J., Brazma, A., Nurse, P., and Bahler, J. (2004). 
   Periodic Gene Expression program of the fission yeast cell cycle. 
   \emph{Nature Genetics}. \bold{36}.
-
 }
 
 \seealso{
@@ -53,6 +57,31 @@ Rustici, G., Mata, J., Kivinen, K., Lio, P., Penkett, C., Burns, G., Hayles, J.,
 
 \examples{
 data(cirgenes)
+
+# These values of kappa estimations were obtained by using the calculation
+# in Fernandez et al (2012).
+
+kappas <- c(2.64773, 3.24742, 2.15936, 4.15314, 4.54357,
+               29.07610, 6.51408, 14.19445, 5.66920, 11.12889)
+
+allresults <- list()
+resultIsoCIRE <- matrix(ncol = ncol(cirgenes), nrow = nrow(cirgenes))
+
+SCEs <- vector(mode = "numeric", length = nrow(cirgenes))
+pvalues <- vector(mode = "numeric", length = nrow(cirgenes))
+
+for (i in 1 : nrow(cirgenes)) {
+    k <- kappas[i]
+    genes <- as.numeric(cirgenes[i, !is.na(cirgenes[i, ]) ])
+    allresults[[i]] <- cond.test(genes, kappa = k)
+    resultIsoCIRE[ i, !is.na(cirgenes[i, ]) ] <- round(unlist(allresults[[i]]$CIRE), digits = 3)
+    SCEs[i] <- allresults[[i]]$SCE
+    pvalues[i] <- allresults[[i]]$pvalue
+ }
+
+# resultIsoCIRE is a matrix with the CIRE for each experiment
+# pvalues is a vector with the result of the test
+
 }
 
 \keyword{datasets}

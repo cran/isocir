@@ -138,7 +138,7 @@ Motivated by the wide range of applications and the non-existence of a user frie
 introduce the \pkg{isocir} package programmed in \proglang{R} environment, \cite{Rcore04}, which can be downloaded from
 \url{http://cran.r-project.org/web/packages/isocir/}. The package provides functions which can be used for drawing inferences
 regarding the order of a collection of points on a unit circle. In Section~\ref{sec2} we describe the statistical problem and
-the methodology of \citet{Rue09} and \citet{Fer11}. The isocir package is illustrated in Section~\ref{sec4} using the motivating
+the methodology of \citet{Rue09} and \citet{Fer11}. The \pkg{isocir} package is illustrated in Section~\ref{sec4} using the motivating
 cell cycle  gene expression data. Some concluding remarks are provided in Section~\ref{sec5}. \clearpage
 
 \section[Circular models]{Angular Parameters under Order Constraints}
@@ -155,7 +155,7 @@ clockwise order on a unit circle. Thus $\phi_1$ is ``followed" by $\phi_2$ which
 \begin{equation}\label{Csco}
 C_{sco}=\{\phi=(\phi_1,\phi_2,\ldots,\phi_q)\in [0,2\pi]^q:\phi_{1}\preceq\phi_{2}\preceq\cdots\preceq\phi_{q}\preceq\phi_{1}\}.
 \end{equation}
-It is important to note that the order among the angular parameters is invariant of the location of the pole (the initial point
+It is important to note that the order among the angular parameters is invariant under changes in location of the pole (the initial point
 of the circle). Unlike the Euclidean space, points on a unit circle wrap around. That is, starting at the pole, by traveling $2
 \pi$ radians around the circumference of the circle one would return to pole. For this reason the circular order among points on
 a unit circle is preserved even if the location of the pole is shifted. This is why \citet{Rue09} and \citet{Fer11} refer to the
@@ -167,7 +167,7 @@ applicable to circular data.  The problem is even more challenging when the angu
 around the circle, such as $C_{sco}$. General methodology for circular data, when there are no constraints on the angular
 parameters, can be found in the book \citet{Mar00}, among others.  Constrained inference for circular data is rather recent
 (\citet{Rue09} and \citet{Fer11}). As noted in \citet{Rue09}, standard Euclidean space methods such as the pool adjacent
-violators algorithm (PAVA) or the isotonic regression (see \citet{Rob88} for details) cannot be applied to circular data. For
+violators algorithm (PAVA) used for computing isotonic regression (see \citet{Rob88} for details) cannot be applied to circular data. For
 example, when a cell biologist is investigating a large number of cell cycle genes, it may be difficult to ascertain the
 circular order among all cell cycle genes under consideration.  However, based on the underlying biology, the investigator may a
 priori know the circular order among groups of genes but not the order among genes within each group. In such situations a
@@ -223,7 +223,7 @@ where $r_i$ are the mean resultant lengths. The CIRE is implemented in the funct
 Just as the normal distribution is commonly used for the Euclidean space data, the von-Mises distribution is widely used for
 describing angular data on a unit circle.  Accordingly, for $i=1, 2, \dots, q$, throughout this paper we assume that
 $\overline{\theta}_i$ are independently distributed according to von-Mises distribution, denoted as $M(\phi_i, \kappa)$ where
-$\phi_i$ is the modal direction $\kappa$ is the concentration parameter (see \citet{Mar00}). Under such an assumption,
+$\phi_i$ is the modal direction and $\kappa$ is the concentration parameter (see \citet{Mar00}). Under such an assumption,
 \citet{Fer11} developed a conditional test for testing the following hypotheses:
 \begin{description}
   \item[$\hspace{1cm}H_{0}: $ ] $\phi \in C_{sco}$
@@ -231,9 +231,9 @@ $\phi_i$ is the modal direction $\kappa$ is the concentration parameter (see \ci
   \item[$\hspace{1cm}H_{1}: $ ] $H_{0}$ is not true.
 \end{description}
 The conditional test statistic is given by $ T^*=\frac{2 \hat{\kappa} SCE(\widetilde\phi , \overline{\theta})}{q}$ , where
-$\hat\kappa$ is the estimator of $\kappa$, $\widetilde{\phi }$ is the CIRE computed under $H_{0}$. $\widetilde\phi$ determines a
+$\hat\kappa$ is the estimator of $\kappa$, $\widetilde{\phi }$ is the CIRE computed under $H_{0}$. The estimate $\widetilde\phi$ determines a
 partition of $\wp=\{1,\ldots,I\}$ into sets of coordinates on which $\widetilde\phi$ is constant. These sets are called level
-sets. The rejection region for the conditional test is given by:
+sets. The rejection region for the conditional $\alpha$-level test is given by:
 \begin{equation*}
 \text{Reject }H_{0} \text{ if } T^* \geq c(m) \text{, }
 \end{equation*}
@@ -265,8 +265,8 @@ Section.
 
 
 \section[isocir]{Package \pkg{isocir}}
-\label{sec3} \label{sec3} We start this section giving some background on \proglang{R} packages for isotonic regression and
-analysis of circular data, we then describe the structure of our package \pkg{isocir} and illustrate it by some examples.
+\label{sec3} \label{sec3} We start this section by giving some background on \proglang{R} packages for isotonic regression and
+analysis of circular data. We then describe the structure of our package \pkg{isocir} and illustrate it by some examples.
 
 \subsection[Background]{Related Packages}
 As isotonic regression is a well-known and widely used technique there are many packages in \proglang{R} for performing isotonic
@@ -284,11 +284,11 @@ Similarly, there are several packages in \proglang{R} for analyzing circular dat
 \end{itemize}
 Since none of the existing packages for circular data are applicable for analyzing circular data under constraints, in this
 article we introduce the software package ``\textbf{iso}tonic inference for \textbf{cir}cular data", with the acronym
-\pkg{isocir}, for analyzing circular data under constraints. Our package uses \pkg{circular} (see \cite{circular}) and
+\pkg{isocir}, for analyzing circular data under constraints. Our package depends on \pkg{circular} (see \cite{circular}) and
 \pkg{combinat} (see \cite{combinat}). These packages should be installed in the computer before loading \pkg{isocir}.
 
 \subsection[Package structure]{Package Structure}
-For the convenience of the reader, we summarize all the functions, arguments and descriptions of our package isocir in Table
+For the convenience of the reader, we summarize all the functions, arguments and descriptions of our package \pkg{isocir} in Table
 1.\\
 
 \begin{table}[h]
@@ -303,7 +303,7 @@ For the convenience of the reader, we summarize all the functions, arguments and
 \hline
 \hline \code{isocir} & \code{(cirmeans, SCE, CIRE, pvalue, kappa)} & Creates an Object of class isocir\\
 \hline \code{is.isocir} & \code{(x)} & Checks an Object\\
-\hline \code{print.isocir} & \code{(x, decCIRE, decpvalue, deckappa)} & Prints an object of class isocir\\
+\hline \code{print.isocir} & \code{(x,decCIRE,decpvalue,deckappa,...)} & Prints an object of class isocir\\
 \hline \code{plot.isocir} & \code{(x, option, ...)} & Plots an object of class isocir\\
 \hline
 \end{tabular}
@@ -313,8 +313,8 @@ In the following we describe each function of the software in detail.
 \begin{itemize}
   \item \textbf{Functions \code{sce()} and \code{mrl()}}
   \end{itemize}
-The auxiliary function sce computes the sum of circular error between a given q-dimensional vector (denoted by arg1) and one or
-more q-dimensional vectors (denoted by arg2). The function mrl computes the mean resultant length for the input "data".
+The auxiliary function \code{sce} computes the sum of circular errors between a given $q$-dimensional vector (denoted by \code{arg1}) and one or
+more $q$-dimensional vectors (denoted by \code{arg2}). The function \code{mrl} computes the mean resultant length for the input \code{data}.
 \begin{itemize}
   \item \textbf{Function \code{CIRE()}}
 \end{itemize}
@@ -361,7 +361,7 @@ The arguments of this function appear in Table \ref{arguments_cond.test} and are
 \hline \textbf{\code{data}} & numeric vector & matrix (as many columns as replications)\\
 \hline \textbf{\code{groups}} & \multicolumn{2}{c|}{numeric vector with  the groups of the order to be tested}\\
 \hline \textbf{\code{kappa}} & positive numeric value & (NULL)\\
-\hline \textbf{\code{bias}} & (NULL) & \code{=TRUE}(by default) / \code{=FALSE}\\
+\hline \textbf{\code{biasCorrect}} & (NULL) & \code{=TRUE}(by default) / \code{=FALSE}\\
 \hline
 \end{tabular}
 \caption{Arguments of the \code{cond.test} function} \label{arguments_cond.test}
@@ -371,7 +371,7 @@ order to be tested instead of the known order. The argument \code{kappa} is need
 are no replications in \code{data}, the value of $\kappa$ must be set by the user. Even when there are replicated data, if the
 user knows the value of $\kappa$, it may be introduced and it will be taken into consideration to perfom the conditional test.
 When $\kappa$ is unknown and there are replicated data, the parameter is internally estimated by maximum likelihood and
-$\hat{\kappa}$ is shown in the output. The \code{bias} is related to the estimation of $\kappa$. If \code{bias=TRUE} the bias
+$\hat{\kappa}$ is shown in the output. The \code{biasCorrect} is related to the estimation of $\kappa$. If \code{biasCorrect=TRUE} the bias
 correction appearing in \cite{Mar00} p. 87 is performed in the estimation of $\kappa$. The output of this function is an object
 of class \code{isocir} (explained below) with all the results from the conditional test: the CIRE ($\widetilde{\phi}$), the
 unrestricted circular means ($\overline{\theta}$), the SCE ($SCE(\widetilde{\phi},\overline{\theta})$), the kappa value
@@ -392,7 +392,7 @@ the following elements:
 These objects of class \code{isocir} are the output of the functions \code{CIRE} and \code{cond.test}. The last two elements of
 the list (\code{$kappa} and \code{$pvalue}) are \code{NULL} if the object comes from the function \code{CIRE}. Otherwise, if the
 object comes from the function \code{cond.test} not only there are the results of the conditional test (\code{$kappa} and
-\code{$pvalue}) but also an attribute called \code{estkappa} will inform (or rather remember) the user if the value in
+\code{$pvalue}) but also an attribute called \code{estkappa} will inform (or rather remind) the user if the value in
 \code{$kappa} has been internally estimated or introduced as a known input.
 
 Some S3 methods have also been defined for the class \code{isocir}:
@@ -400,9 +400,9 @@ Some S3 methods have also been defined for the class \code{isocir}:
   \item \code{isocir(cirmeans = NULL, SCE = NULL, CIRE = NULL, pvalue = NULL, kappa = NULL)}: This function creates an object of
   class \code{isocir}.
   \item \code{is.isocir(x)}: This function checks whether the object \code{x} is of class \code{isocir}.
-  \item \code{print.isocir(x, decCIRE, decpvalue, deckappa)}: This S3 method is used to print an object \code{x} of class
+  \item \code{print.isocir(x, decCIRE, decpvalue, deckappa, ...)}: This S3 method is used to print an object \code{x} of class
   \code{isocir}. The number of decimal places can be chosen.
-  \item \code{plot.isocir(x, option = c("CIRE", "cirmeans"))}: This S3 method is used to plot an object \code{x} of class \code{isocir}.The argument \code{option} gives the user the option to plot the points of the Circular Isotonic Regression Estimator
+  \item \code{plot.isocir(x, option = c("CIRE", "cirmeans"), ...)}: This S3 method is used to plot an object \code{x} of class \code{isocir}. The argument \code{option} gives the user the option to plot the points of the Circular Isotonic Regression Estimator
   (by default) or the unrestricted circular means.
 \end{itemize}
 \subsection[Examples]{Examples}
@@ -416,7 +416,7 @@ $\overline{\theta}_{1}=0.025; \hspace{0.1cm}\overline{\theta}_{2}=1.475;\hspace{
 $\overline{\theta}_{4}=5.518; \hspace{0.1cm}\overline{\theta}_{5}=2.859;$\\
 $\overline{\theta}_{6}=5.387;$\\
 $\overline{\theta}_{7}=4.179; \hspace{0.1cm}\overline{\theta}_{8}=1.962$.\\
-We illustrate isocir for estimating the 8 population angular parameters under the following partial circular order constraint:
+We illustrate \pkg{isocir} for estimating the 8 population angular parameters under the following partial circular order constraint:
 \begin{equation*}\label{order1}
 \left\{
   \begin{array}{c}
@@ -456,7 +456,7 @@ Thus we obtain CIRE using the function \code{CIRE} as follows:
 <<eval=FALSE>>= 
 example1CIRE <- CIRE(cirdata, groups = orderGroups, circular = TRUE)
 @ 
-The output is saved in ``example1CIRE" and the printed output is as follows:
+The output is saved in \code{example1CIRE} and the printed output is as follows:
 % CHUNK 5
 <<eval=FALSE>>= 
 example1CIRE
@@ -487,7 +487,7 @@ unrestricted estimates the argument \code{option="cirmeans"} can be used (i.e. \
 
 Using the data in our package called \code{datareplic} we demonstrate the use of the function \code{cond.test} when $\kappa$ is
 unknown. As remarked earlier, when $\kappa$ is unknown we need replicate data to estimate $\kappa$.  The file \code{datareplic}
-is a matrix where each column contains the values of a replication and each row the angles observed at each population. In this
+is a matrix where each column contains the values of a replication and each row the angles observed at each population mean. In this
 example we have 8 populations and hypotheses regarding the corresponding 8 parameters are as follows:
 \begin{description}
   \item[$\hspace{1cm}H_{0}: $ ] $ \phi_{1}\preceq \phi_{2} \preceq \phi_{3} \preceq \phi_{4} \preceq \phi_{5}\preceq \phi_{6}\preceq \phi_{7}\preceq \phi_{8}\preceq \phi_{1}$
@@ -501,10 +501,10 @@ data(datareplic)
 orderGroups2 <- c(1:8)
 @
 Since replicate data are available, we do not include the argument \code{kappa} as we want the function to estimate it.
-Moreover, we correct the bias in the estimation of $\kappa$, so we set \code{bias=TRUE}.  Thus we have the following code:
+Moreover, we correct the bias in the estimation of $\kappa$, so we set \code{biasCorrect=TRUE}.  Thus we have the following code:
 % CHUNK 7
 <<eval=FALSE>>= 
-example2test <- cond.test(datareplic, groups = orderGroups2, bias = TRUE)
+example2test <- cond.test(datareplic,groups=orderGroups2,biasCorrect=TRUE)
 example2test
 @
 The result is the p-value defined in (\ref{prob2}). Since the \code{p-value = 0.0034} we reject the null hypothesis and conclude
@@ -520,8 +520,8 @@ round(unlist(example2test$cirmeans), digits = 3)
 \section[Applications]{Application to Analysis of the Cell Cycle Gene Expression Data}
 \label{sec4} As noted in the Introduction there has been considerable discussion in the literature on the conservation of
 various aspects of cell cycle genes (\citet{Fer11}), particularly between two yeast species, namely, \emph{S. Cerevisiae}
-(budding yeast) and \emph{S. Pombe} (fission yeast). Using the 10 published budding yeast data (\citet{Rus04}, \citet{Ol05},
-\citet{Pen05}), we illustrate the isocir package to test the null hypothesis that 16 fission yeast genes, namely, \emph{ssb1},
+(budding yeast) and \emph{S. Pombe} (fission yeast). Using the 10 published budding yeast data sets (\citet{Rus04}, \citet{Ol05},
+\citet{Pen05}), we illustrate the \pkg{isocir} package to test the null hypothesis that 16 fission yeast genes, namely, \emph{ssb1},
 \emph{cdc22}, \emph{msh6}, \emph{psm3}, \emph{rad21}, \emph{cig2}, \emph{mik1}, \emph{h3.3}, \emph{hhf1}, \emph{hht3},
 \emph{hta2}, \emph{htb1}, \emph{fkh2}, \emph{chs2}, \emph{sid2} and \emph{slp1} satisfy the same circular order as their budding
 yeast orthologs (RFA1, RNR1, MSH6, SMC3, MCD1, CLN2, SWE1, HHT2, HHF1, HHT1, HTA2, HTB2, FKH1, CHS2, DBF2 and CDC20) whose
@@ -535,7 +535,7 @@ H_{0}: \phi_{ssb1}\preceq\phi_{cdc22}\preceq\phi_{msh6}\preceq\phi_{psm3}\preceq
 H_{1}: H_{0} \textrm{ is not true}.
 \end{array}
 \end{equation}
-For each of the 10 experimental data, the unconstrained estimates of the phase angles of the above 16 fission yeast genes
+For each of the 10 experimental data sets, the unconstrained estimates of the phase angles of the above 16 fission yeast genes
 appearing in Table \ref{data} were obtained using the Random Periods Model (\citet{Liu04}). The \proglang{R} code for that
 software can be obtained from \url{http://www.niehs.nih.gov/research/atniehs/labs/bb/staff/peddada/index.cfm}.
 
@@ -552,16 +552,33 @@ Consequently we suppose that,
 \end{equation*}
 where $\overline{\theta}_{ij}$ is the unrestricted circular mean of the gene $i$ in the experiment $j$.
 
-Since the 10 experiments may not considered as replications of each other, we performed a separate test for each experiment.
-Moreover, as explained in \citet{Fer11} we assume that the concentration parameter $\kappa_j$ depends on the experiment but not
-on the gene. The reason for this is that out of the two sources of uncertainty, one specific to the gene and another one due to
-the experiment (and therefore common to all genes within the experiment), the former source maybe considered negligible relative
-to the latter as the number of time points used in each time course experiment is fairly large for any specific gene.
+Since the 10 experiments may not considered as replications of each
+other, we performed a separate test for each experiment. Moreover,
+as explained in \citet{Fer11} we assume that the concentration
+parameter $\kappa_j$ depends on the experiment but not on the gene.
+The reason for this is that out of the two sources of uncertainty,
+one specific to the gene and another one due to the experiment (and
+therefore common to all genes within the experiment), the former
+source maybe considered negligible relative to the latter as the
+number of time points used in each time course experiment is fairly
+large for any specific gene.
 
-For each of the 10 experiments, we  test the hypothesis (\ref{hypo}) using our software \code{cond.test}. The $\kappa_j$ values
-considered for this example are obtained using \citet{Fer11}. The procedure used for the computations of these values comes from
-a mixed effects models approach for circular data and is fully detailed in the supplementary material of that paper. The
-following code gives the p-values for each experiment. Results are summarized in Table~\ref{SCEyCIRE}.
+The $\kappa_j$ values considered for this example are obtained using
+\citet{Fer11}. The procedure used for the computation of these
+values comes from an analysis of variance type methodology. Under
+the assumptions made before, the model for the circular means is:
+\begin{equation*}
+\phi_{ij}=\mu+\alpha_i+\beta_j,
+\end{equation*}
+where $\alpha_i$ is the gene effect and $\beta_j$ is the experiment
+effect. The proposed model is analogous to the standard two-way
+analysis of variance model and is fully detailed in the
+supplementary material of \citet{Fer11}.
+
+For each of the 10 experiments, we  test the hypothesis (\ref{hypo})
+using the function \code{cond.test} that is in our software. The
+following code gives the p-values for each experiment. Results are
+summarized in Table~\ref{SCEyCIRE}.
 % CHUNK 9 
 <<eval=FALSE>>= 
  data("cirgenes")

@@ -1,5 +1,5 @@
-"cond.test"<-function(data, groups = c(1:nrow(data)), kappa = NULL, bias = TRUE){
-# DATE WRITTEN: 4 Ago 2010          LAST REVISED:  09 Jan 2012
+"cond.test"<-function(data, groups = c(1:nrow(data)), kappa = NULL, biasCorrect = TRUE){
+# DATE WRITTEN: 4 Ago 2010          LAST REVISED:  26 Sep 2012
 # AUTHOR: Sandra Barragan based on the SAS routines written by Miguel A. Fernandez.
 # DESCRIPTION: 
 # data are the unordered estimator
@@ -33,7 +33,7 @@ if(!is.null(kappa)& SCE!=0){
 if(is.null(kappa)){
   Rs<-apply(data,1,mrl)
   kap<-A1inv(mean(Rs))
-  if(bias == TRUE) {
+  if(biasCorrect == TRUE) {
     N<-ncol(data)*nrow(data)
     if(kap < 2){
       kap<-max(kap-(2/(N*kap)), 0)
