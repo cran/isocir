@@ -266,7 +266,7 @@ Section.
 
 \section[isocir]{Package \pkg{isocir}}
 \label{sec3} \label{sec3} We start this section by giving some background on \proglang{R} packages for isotonic regression and
-analysis of circular data. We then describe the structure of our package \pkg{isocir} and illustrate it by some examples.
+analysis of circular data. We then describe the structure of our package \pkg{isocir} (\citet{Bar13}) and illustrate it by some examples.
 
 \subsection[Background]{Related Packages}
 As isotonic regression is a well-known and widely used technique there are many packages in \proglang{R} for performing isotonic
@@ -626,7 +626,7 @@ Environmental Health Sciences (Z01 ES101744-04).  We thank Dr. Leping Li, Keith 
 editor and the editor for several useful comments which improved the presentation of this manuscript.
 
 \bibliography{library1}
-\bibliographystyle{jss}
+% \bibliographystyle{jss}
 
 \clearpage
 \begin{sidewaystable}[h]

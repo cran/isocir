@@ -1,19 +1,21 @@
-citHeader("To cite package 'isocir' in publications use:")
+citHeader("To cite isocir in publications use:")
 
-year <- 2012
+citEntry(entry = "Article",
+  title        = "{isocir}: An {R} Package for Constrained Inference Using Isotonic Regression for Circular Data, with an Application to Cell Biology",
+  author       = personList(as.person("Sandra Barrag\\'{a}n"),
+                   as.person("Miguel A. Fern\\'{a}ndez"),
+                   as.person("Cristina Rueda"),
+                   as.person("Shyamal Das Peddada")),
+  journal      = "Journal of Statistical Software",
+  year         = "2013",
+  volume       = "54",
+  number       = "4",
+  pages        = "1--17",
+  url          = "http://www.jstatsoft.org/v54/i04/",
 
-vers <- paste("R package version", meta$Version)
-
-citEntry(entry="Manual",
-         title = "isocir: Isotonic Inference for Circular Data",
-         author = personList(as.person("S. Barragán"), as.person("M. A. Fernández")),
-         year = year,
-         note = vers,
-
-         textVersion =
-         paste("S. Barragán and M. A. Fernández (",
-               year,
-               "). isocir: Isotonic Inference for Circular Data. ",
-               vers, ".", sep=""))
-
-
+  textVersion  =
+  paste("Sandra Barragan, Miguel A. Fernandez, Cristina Rueda, Shyamal Das Peddada (2013).",
+        "isocir: An R Package for Constrained Inference Using Isotonic Regression for Circular Data, with an Application to Cell Biology.",
+        "Journal of Statistical Software, 54(4), 1-17.",
+        "URL http://www.jstatsoft.org/v54/i04/.")
+)

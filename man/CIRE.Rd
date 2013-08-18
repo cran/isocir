@@ -49,18 +49,25 @@ The Circular Isotonic Regression Estimator is returned as a list just to see the
 }
 
 \references{
-Mardia, K. and Jupp, P. (2000).
-   \emph{Directional Statistics}, Chichester: Wiley.
-
 Rueda, C., Fernández, M. A. and Peddada, S. D. (2009).
   Estimation of parameters subject to order restrictions on a circle with application to estimation of phase angles of cell-cycle genes.
   \emph{Journal of the American Statistical Association}, \bold{104}, n485; pp 338--347.
   \url{http://pubs.amstat.org/doi/abs/10.1198/jasa.2009.0120}
 
+Barragan, S., Fernandez, M.A., Rueda, C. and Peddada, S.D. (2013).
+     isocir: An R Package for Constrained Inference Using Isotonic Regression for Circular Data, with an Application to Cell Biology.
+     \emph{Journal of Statistical Software} 54(4), 1-17. 
+\url{http://www.jstatsoft.org/v54/i04/.}
+
+Mardia, K. and Jupp, P. (2000).
+   \emph{Directional Statistics}, Chichester: Wiley.
+
 Fernández, M. A., Rueda, C. and Peddada, S. D. (2011).
    Identification of a core set of signature cell cycle genes whose relative order of time to peak expression is conserved across
 species, \emph{Nucl. Acids Res.} \bold{40}, n7: pp 2823--2832. doi:10.1093/nar/gkr1077.
 \url{http://nar.oxfordjournals.org/content/early/2011/11/30/nar.gkr1077}
+
+
 }
 
 \seealso{
