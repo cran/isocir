@@ -3,7 +3,6 @@ useDynLib(isocir)
 exportPattern(".")
 
 # Import all packages listed as Imports or Depends
-import(
-  combinat,
-  circular
-)
+import(circular)
+importFrom(combinat, permn)
+

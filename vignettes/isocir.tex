@@ -14,7 +14,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% declarations for jss.cls %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\SweaveOpts{engine=R, echo=T, eps=FALSE}
+
 
 \author{Sandra Barrag\'{a}n\\Universidad de Valladolid\And
         Miguel A. Fern\'{a}ndez\\Universidad de Valladolid\AND
@@ -77,9 +77,6 @@ the proposed package using a relevant cell cycle  data.\\}
 \begin{document}
 
 
-<<eval=FALSE, echo=FALSE, results=hide>>=
-library("isocir")
-@
 
 
 \section[Introduction]{Introduction}
@@ -441,26 +438,34 @@ We illustrate \pkg{isocir} for estimating the 8 population angular parameters un
 \end{equation*}
 These data are a set of random circular data called \code{cirdata} in our package and they can be used by calling as below:
 % CHUNK 2 
-<<eval=FALSE>>= 
-data(cirdata)
-cirdata
-@ 
+\begin{Schunk}
+\begin{Sinput}
+> data(cirdata)
+> cirdata
+\end{Sinput}
+\end{Schunk}
 Since in this example, there are no replications, we provide data in a vector format. The groups of the order are defined as
 follows:
 % CHUNK 3 
-<<eval=FALSE>>= 
-orderGroups <- c(1, 1, 1, 2, 2, 3, 4, 4)
-@
+\begin{Schunk}
+\begin{Sinput}
+> orderGroups <- c(1, 1, 1, 2, 2, 3, 4, 4)
+\end{Sinput}
+\end{Schunk}
 Thus we obtain CIRE using the function \code{CIRE} as follows:
 % CHUNK 4
-<<eval=FALSE>>= 
-example1CIRE <- CIRE(cirdata, groups = orderGroups, circular = TRUE)
-@ 
+\begin{Schunk}
+\begin{Sinput}
+> example1CIRE <- CIRE(cirdata, groups = orderGroups, circular = TRUE)
+\end{Sinput}
+\end{Schunk}
 The output is saved in \code{example1CIRE} and the printed output is as follows:
 % CHUNK 5
-<<eval=FALSE>>= 
-example1CIRE
-@ 
+\begin{Schunk}
+\begin{Sinput}
+> example1CIRE
+\end{Sinput}
+\end{Schunk}
 Thus the constrained estimates satisfy the required order as follows:
 \begin{equation*}\label{order2}
 \left\{
@@ -496,17 +501,21 @@ example we have 8 populations and hypotheses regarding the corresponding 8 param
 \end{description}
 We take the data from the package and set the groups of the order in the argument \code{groups}.
  % CHUNK 6 
-<<eval=FALSE, results=hide>>= 
-data(datareplic) 
-orderGroups2 <- c(1:8)
-@
+\begin{Schunk}
+\begin{Sinput}
+> data(datareplic) 
+> orderGroups2 <- c(1:8)
+\end{Sinput}
+\end{Schunk}
 Since replicate data are available, we do not include the argument \code{kappa} as we want the function to estimate it.
 Moreover, we correct the bias in the estimation of $\kappa$, so we set \code{biasCorrect=TRUE}.  Thus we have the following code:
 % CHUNK 7
-<<eval=FALSE>>= 
-example2test <- cond.test(datareplic,groups=orderGroups2,biasCorrect=TRUE)
-example2test
-@
+\begin{Schunk}
+\begin{Sinput}
+> example2test <- cond.test(datareplic,groups=orderGroups2,biasCorrect=TRUE)
+> example2test
+\end{Sinput}
+\end{Schunk}
 The result is the p-value defined in (\ref{prob2}). Since the \code{p-value = 0.0034} we reject the null hypothesis and conclude
 that the parameters do not satisfy the specified circular order.
 
@@ -514,9 +523,11 @@ If the user is interested in printing the unrestricted circular means $\overline
 \code{example2test$cirmeans}. The result is a list that is saved in the same format as CIRE. Since each group in the circular
 order has a single element, it is convenient to use the vector format.  Hence we have:
 % CHUNK 8
-<<eval=FALSE>>= 
-round(unlist(example2test$cirmeans), digits = 3)
-@
+\begin{Schunk}
+\begin{Sinput}
+> round(unlist(example2test$cirmeans), digits = 3)
+\end{Sinput}
+\end{Schunk}
 \section[Applications]{Application to Analysis of the Cell Cycle Gene Expression Data}
 \label{sec4} As noted in the Introduction there has been considerable discussion in the literature on the conservation of
 various aspects of cell cycle genes (\citet{Fer11}), particularly between two yeast species, namely, \emph{S. Cerevisiae}
@@ -580,26 +591,25 @@ using the function \code{cond.test} that is in our software. The
 following code gives the p-values for each experiment. Results are
 summarized in Table~\ref{SCEyCIRE}.
 % CHUNK 9 
-<<eval=FALSE>>= 
- data("cirgenes")
- kappas <- c(2.64773, 3.24742, 2.15936, 4.15314, 4.54357,
-               29.07610, 6.51408, 14.19445, 5.66920, 11.12889)
-
- allresults <- list()
- resultIsoCIRE <- matrix(ncol = ncol(cirgenes), nrow = nrow(cirgenes))
-
- SCEs <- vector(mode = "numeric", length = nrow(cirgenes))
- pvalues <- vector(mode = "numeric", length = nrow(cirgenes))
-
- for (i in 1 : nrow(cirgenes)) {
-    k <- kappas[i]
-    genes <- as.numeric(cirgenes[i, !is.na(cirgenes[i, ]) ])
-    allresults[[i]] <- cond.test(genes, kappa = k)
-    resultIsoCIRE[ i, !is.na(cirgenes[i, ]) ] <- unlist(allresults[[i]]$CIRE)
-    SCEs[i] <- allresults[[i]]$SCE
-    pvalues[i] <- allresults[[i]]$pvalue
- }
-@
+\begin{Schunk}
+\begin{Sinput}
+>  data("cirgenes")
+>  kappas <- c(2.64773, 3.24742, 2.15936, 4.15314, 4.54357,
++                29.07610, 6.51408, 14.19445, 5.66920, 11.12889)
+>  allresults <- list()
+>  resultIsoCIRE <- matrix(ncol = ncol(cirgenes), nrow = nrow(cirgenes))
+>  SCEs <- vector(mode = "numeric", length = nrow(cirgenes))
+>  pvalues <- vector(mode = "numeric", length = nrow(cirgenes))
+>  for (i in 1 : nrow(cirgenes)) {
++     k <- kappas[i]
++     genes <- as.numeric(cirgenes[i, !is.na(cirgenes[i, ]) ])
++     allresults[[i]] <- cond.test(genes, kappa = k)
++     resultIsoCIRE[ i, !is.na(cirgenes[i, ]) ] <- unlist(allresults[[i]]$CIRE)
++     SCEs[i] <- allresults[[i]]$SCE
++     pvalues[i] <- allresults[[i]]$pvalue
++  }
+\end{Sinput}
+\end{Schunk}
 
 From the p-values in Table~\ref{SCEyCIRE}, we see that the null hypothesis cannot be rejected in any of the 10 experiments even
 at a level of significance as high as 0.20. Therefore, it seems plausible that the peak expressions of these 16 genes in
