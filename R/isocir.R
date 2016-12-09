@@ -21,7 +21,7 @@
    }
    cat("\n Sum of Circular Errors: SCE = ", round(x$SCE, decCIRE), "\n")
    if(!is.null(x$cirmeans)){
-     cat("Invisible: unrestricted circular means; these can be\n")
+     cat("Invisible: Unrestricted circular means; these can be\n")
      cat("obtained via $cirmeans\n")
      }
    cat("\n")

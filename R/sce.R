@@ -26,12 +26,25 @@ if(is.vector(arg2)){
  if(length(meanrl) == 1){mrls <- rep(1,length(point1))}
  } # end if arg2 vector
 
+# In case of arg2 is a matrix
 if(is.matrix(arg2)){
+  
  point2<-suppressWarnings(apply(arg2,1,mean.circular))%%(2*pi)
  if(sum(proveNA1) >= 1){
   point1 <- arg1[proveNA1 == 0]
   point2 <- point2[proveNA1 == 0]
-  }
+ }
+ if(sum(proveNA1) < 1){
+   point1 <- arg1
+ }
+ 
+ proveNA2 <- rep(0,length(point2))
+ proveNA2[is.na(point2)] <- 1 
+ if(sum(proveNA2) >= 1){
+   point2 <- point2[proveNA2 == 0]
+   point1 <- point1[proveNA2 == 0]
+ } 
+ 
  mrls <- mrl(arg2)
  } # end if arg2 matrix
 

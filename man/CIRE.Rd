@@ -7,17 +7,17 @@ This function obtains the Circular Isotonic Regression Estimator (CIRE) of a set
 }
 
 \usage{
-CIRE (data, groups=c(1:nrow(data)), circular = TRUE)
+CIRE (data, groups=NULL, circular = TRUE)
 }
 
 \arguments{
   \item{data}{vector or matrix of data to be processed.  See details.}
-  \item{groups}{a numeric vector with the assumed order of data.}
+  \item{groups}{a numeric vector representing the assumed order of data.}
   \item{circular}{logical,  by default \code{TRUE} is the order wrapped around the circle (circular order). If \code{FALSE} the order is not closed.}
 }
 
 \details{
- It uses the algorithm developed in Rueda et al (2009).  The final solution is found in a computationally efficient way by searching for the feasible solution with the smallest SCE, see \code{\link{sce}}.  The order can be chosen by the user and is set using the \code{groups} argument.  An example of order would be the simple circular order, defined by the set \eqn{C_{sco}}{C_sco}.
+ It uses the algorithm developed in Rueda et al (2009).  The final solution is found in a computationally efficient way by searching for the feasible solution with the smallest SCE, see \code{\link{sce}}.  The order can be chosen by the user and is set using the \code{groups} argument. The order is defined in \code{groups} by a numeric vector with the positions in the order of each element.  An example of order would be the simple circular order, defined by the set \eqn{C_{sco}}{C_sco}.
 
 \deqn{ C_{sco}=\{\phi=(\phi_1,\phi_2,\ldots,\phi_q)\in
 [0,2\pi]^q:\phi_{1}\leq\phi_{2}\leq\ldots\leq\phi_{q}\leq\phi_{1}\}
@@ -49,24 +49,18 @@ The Circular Isotonic Regression Estimator is returned as a list just to see the
 }
 
 \references{
-Rueda, C., Fernández, M. A. and Peddada, S. D. (2009).
-  Estimation of parameters subject to order restrictions on a circle with application to estimation of phase angles of cell-cycle genes.
-  \emph{Journal of the American Statistical Association}, \bold{104}, n485; pp 338--347.
-  \url{http://pubs.amstat.org/doi/abs/10.1198/jasa.2009.0120}
-
-Barragan, S., Fernandez, M.A., Rueda, C. and Peddada, S.D. (2013).
-     isocir: An R Package for Constrained Inference Using Isotonic Regression for Circular Data, with an Application to Cell Biology.
-     \emph{Journal of Statistical Software} 54(4), 1-17. 
-\url{http://www.jstatsoft.org/v54/i04/.}
-
 Mardia, K. and Jupp, P. (2000).
    \emph{Directional Statistics}, Chichester: Wiley.
 
-Fernández, M. A., Rueda, C. and Peddada, S. D. (2011).
-   Identification of a core set of signature cell cycle genes whose relative order of time to peak expression is conserved across
+
+Rueda, C., Fernandez, M. A. and Peddada, S. D. (2009).
+  Estimation of parameters subject to order restrictions on a circle with application to estimation of phase angles of cell-cycle genes.
+  \emph{Journal of the American Statistical Association}, \bold{104}, n485; pp 338--347. \url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2742472/}
+
+Fernandez, M. A., Rueda, C. and Peddada, S. D. (2012).
+    Identification of a core set of signature cell cycle genes whose relative order of time to peak expression is conserved across
 species, \emph{Nucl. Acids Res.} \bold{40}, n7: pp 2823--2832. doi:10.1093/nar/gkr1077.
 \url{http://nar.oxfordjournals.org/content/early/2011/11/30/nar.gkr1077}
-
 
 }
 

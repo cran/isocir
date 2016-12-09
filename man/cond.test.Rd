@@ -7,11 +7,11 @@
 This function calculates the p-value corresponding to the conditional test where the hypotheses are whether the data follow a fixed circular order or not.
 }
 
-\usage{cond.test(data, groups=c(1:nrow(data)), kappa=NULL, biasCorrect=TRUE)}
+\usage{cond.test(data, groups=NULL, kappa=NULL, biasCorrect=TRUE)}
 
 \arguments{
   \item{data}{vector or matrix with the data. See details.}
-  \item{groups}{a numeric vector with the order to be contrasted.}
+  \item{groups}{a numeric vector with the circular order to be contrasted.}
   \item{kappa}{numeric and positive, if NULL, it will be estimated.}
   \item{biasCorrect}{logical, if \code{TRUE}, the correction of the bias is done in the estimation of kappa.}
 }
@@ -23,8 +23,9 @@ This function performs the conditional test to constrast the hypotheses:
 
 \eqn{\hspace{1.7cm}H_{1}:\hspace{0.1cm}H_{0}}{H1: Ho:} is not true.
 
-This conditional test is a modification of the likelihood ratio test.  See Fernandez et al. (2011) for full details about the conditional test.  For a whole explanation of the use of this function, see the vignette of this package where some examples are shown.
+This conditional test is a modification of the likelihood ratio test.  See Fernández et al. (2011) for full details about the conditional test.  For a whole explanation of the use of this function, see the vignette of this package where some examples are shown.
 
+The circular order to be tested is defined in the argument \code{groups} by a numeric vector with the positions in the order of each element. 
 The result of \code{cond.test} is the p-value of this test.  There are two cases depending on whether \eqn{\kappa}{kappa} is known or not.  
 
 If \eqn{\kappa}{kappa} is known, \code{data} is usually a vector with the unrestricted circular means. In this case the value of \eqn{\kappa}{kappa} has to be introduced in the argument \code{kappa}.  \code{data} could also be a matrix with replications and the user knows the value of \eqn{\kappa}{kappa}, then if it is introduced in the argument \code{kappa} it will be used by the function to perform the contrast instead of using the estimation.
@@ -47,25 +48,19 @@ Maintainer:<sandraba@eio.uva.es>}
 
 
 \references{
-Fernández, M. A., Rueda, C. and Peddada, S. D. (2012).
-    Identification of a core set of signature cell cycle genes whose relative order of time to peak expression is conserved across
-species, \emph{Nucl. Acids Res.} \bold{40}, n7: pp 2823--2832. doi:10.1093/nar/gkr1077.
-\url{http://nar.oxfordjournals.org/content/early/2011/11/30/nar.gkr1077}
-
-
-Barragan, S., Fernandez, M.A., Rueda, C. and Peddada, S.D. (2013).
-     isocir: An R Package for Constrained Inference Using Isotonic Regression for Circular Data, with an Application to Cell Biology.
-     \emph{Journal of Statistical Software} 54(4), 1-17. 
-\url{http://www.jstatsoft.org/v54/i04/.}
-
 
 Mardia, K. and Jupp, P. (2000).
    \emph{Directional Statistics}, Chichester: Wiley.
 
-Rueda, C., Fernández, M. A. and Peddada, S. D. (2009).
+
+Rueda, C., Fernandez, M. A. and Peddada, S. D. (2009).
   Estimation of parameters subject to order restrictions on a circle with application to estimation of phase angles of cell-cycle genes.
-  \emph{Journal of the American Statistical Association}, \bold{104}, n485; pp 338--347.
-  \url{http://pubs.amstat.org/doi/abs/10.1198/jasa.2009.0120}
+  \emph{Journal of the American Statistical Association}, \bold{104}, n485; pp 338--347. \url{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2742472/}
+
+Fernandez, M. A., Rueda, C. and Peddada, S. D. (2012).
+    Identification of a core set of signature cell cycle genes whose relative order of time to peak expression is conserved across
+species, \emph{Nucl. Acids Res.} \bold{40}, n7: pp 2823--2832. doi:10.1093/nar/gkr1077.
+\url{http://nar.oxfordjournals.org/content/early/2011/11/30/nar.gkr1077}
 
 }
 
@@ -76,11 +71,13 @@ Rueda, C., Fernández, M. A. and Peddada, S. D. (2009).
 
 \examples{
 data(cirdata)
-# Example without replications and a general isotropic order:
-cond.test(cirdata, groups=c(1,2,1,3,3,4,5,6), kappa=0.2)
-# Example with replications and the isotropic order (by default):
+# Example without replications and a partial circular order:
+orderGroups <- c(1,1,1,2,2,3,4,4)
+cond.test(cirdata, groups = orderGroups, kappa = 0.2)
+# Example with replications and the next circular order:
+orderGroups2 <- c(1:8)
 data(datareplic)
-cond.test(data=datareplic)
+cond.test(data = datareplic, groups = orderGroups2)
 }
 
 \keyword{circular}

@@ -2,6 +2,202 @@
 = Library isocir =
 ==================
 
+version 2.0-6, 05/12/2016
+
+- Update some functions, particularly the C code.
+
+=================
+
+version 2.0-5, 18/02/2015
+
+- Rewrite some parts of ACO function to improve its efficiency.
+
+=================
+
+version 2.0-3, 04/12/2014
+
+- CLM obtains the Circular Local Maximization of the circular Kendall Tau
+  (control.method="cirktau")
+
+=================
+
+version 2.0-2, 24/11/2014
+
+- TSP with alpha1 doesnt check the contrary circular order any more.
+
+=================
+
+version 2.0-1, 18/11/2014
+
+- Fix some bugs (sce).
+- Add some methods of aggregation of circular orders for the Hodge technique.
+
+=================
+
+version 2.0, 07/10/2014
+
+A full revision of the package, fixing some bugs and renaming some functions to be more logical.
+
+=================
+
+version 1.9-9, 20/05/2014
+
+Help files (.Rd) updated.
+
+=================
+version 1.9-8, 11/05/2014
+
+Function eq.test: the confidence coefficient is calculated inside the function and there is a new output file called frequencydist.csv.
+
+=================
+version 1.9-7, 1/04/2014
+
+Function ACO and eq.test: increase the number of times heuristics are used in order to get a better approximation of estimators.
+
+=================
+version 1.9-6, 23/03/2014
+
+Function eq.test: more changes to obtained the distribution under the null in a more logical way.
+
+=================
+
+version 1.9-5, 22/03/2014
+
+Function eq.test: Some bugs solved and other improvements.
+
+=================
+
+version 1.9-4, 23/01/2014
+
+Function eq.test: Values of statistic added to the output.
+
+=================
+
+
+version 1.9-3, 06/01/2014
+
+Names changed:
+- cirsce --> msce
+- cirktau --> mcirktau
+
+Bug solved in CLM in case of missing values.
+
+=================
+
+version 1.9-2, 08/10/2013
+
+General improvements in the code and in the help files.
+
+=================
+
+version 1.9-1, 08/10/2013
+
+ACO function:
+- Circular Borda positions is improved.
+- TSP approach for alpha=1 is improved.
+- New options of distance are added to Hodge approach.
+
+=================
+
+
+version 1.9, 26/09/2013
+
+FOCO function is changed to ACO function and a considerable improvement of the code is done.
+
+=================
+
+Version 1.8, 16/09/2013
+
+Function CIRE:
+- relaxing condition 5 of PAVA circular to allow equalities in both sides.
+- no argument new, just the new implementation with C.
+- 0 and 2pi data are allowed in CIRE with circular restriction.
+
+=================
+
+
+Version 1.7, 13/08/2013
+
+Function CIRE
+- adding argument new to be able to choose between the old implementation in R or the new with C.
+=================
+
+
+Version 1.6, 14/08/2013
+
+In the function FOCO the code has some changes as consequence of the implementation
+of some improvements in the methodology (the distances when the argument time is used with TSP).
+
+=================
+
+Version 1.5, 23/04/2013
+
+Missing values are now taken into account correctly in the next functions:
+- cirsce
+- FOCO
+- CLM
+
+Some little bugs corrected:
+- cond.test function (when SCE=0)
+- FOCO function (when TSP heuristics have one only solution)
+- CLM function (when circular PAVA must or not be used).
+
+
+=================
+
+Version 1.4, 12/02/2013
+
+A great change in the algorithm which calculates the CIRE in C code
+in order to be even more computationally eficient and fast.
+
+=================
+
+
+Version 1.3, 23/01/2013
+
+A new method of fusion of circular order has been implemented
+and added to:
+FOCO
+
+CLM
+Now, all the methodology is computationally eficient.
+=================
+
+Version 1.2, 23/01/2013
+
+Some new functions have been incorporated:
+FOCO
+CLM
+cirKendall
+cirktau
+cirsce
+naiveSCE
+
+These functions have the implementation of different methodologies
+to fuse circular orders.
+
+=================
+
+Version 1.1-4, 22/01/2013
+
+cond.test and mrl can now deal properly with missing data.
+Some bugs are solved in CIRE function.
+
+=================
+
+Version 1.1-3, 13/12/2012
+
+CIRE can deal with missing values in the data. There is also an improvement 
+in its control of arguments.
+
+=================
+
+Version 1.1-2, 29/10/2012
+
+An improvement in the C code that is part of the function CIRE
+
+=================
+
 Version 1.1-1, 27/09/2012
 
 Some specific changes that make the package more user-friendly.
