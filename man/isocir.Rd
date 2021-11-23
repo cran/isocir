@@ -36,7 +36,7 @@ The argument \code{x} must be of class \code{isocir}.
 An object of class \code{isocir}. 
 }
 
-\author{ Sandra Barrag·n.}
+\author{ Sandra Barrag√°n.}
 
 \seealso{
 \code{\link{CIRE}}, \code{\link{cond.test}}.

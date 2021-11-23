@@ -1,5 +1,4 @@
 ### R code from vignette source 'isocir.Rnw'
-### Encoding: ISO8859-1
 
 ###################################################
 ### code chunk number 1: isocir.Rnw:80-81 (eval = FALSE)

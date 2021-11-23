@@ -11,7 +11,7 @@ citEntry(entry = "Article",
   volume       = "54",
   number       = "4",
   pages        = "1--17",
-  url          = "http://www.jstatsoft.org/v54/i04/",
+  doi          = "10.18637/jss.v054.i04",
 
   textVersion  =
   paste("Sandra Barragan, Miguel A. Fernandez, Cristina Rueda, Shyamal Das Peddada (2013).",

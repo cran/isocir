@@ -955,7 +955,7 @@ resultado <-  list(aggre_order=tita_order)
       if(control.method=="cirmed"){
         MC_0 <- rep(NA, ncol(data))
         for(k in 1:ncol(data)){
-          MC_0[k] <- suppressWarnings(medianCircular(data_z[,k], na.rm=TRUE))
+          MC_0[k] <- suppressWarnings(median.circular(data_z[,k], na.rm=TRUE))
         }
       }
       MC_order[j,] <- order(MC_0)

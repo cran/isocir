@@ -59,7 +59,7 @@ A list with information on the plot: zero, rotation and next.points.
 
 \note{Some codes from \code{\link{eqscplot}} in MASS is used besides some from \code{\link{plot.circular}} in the circular package.}
 
-\author{Sandra Barrag·n based on the code of Claudio Agostinelli and Ulric Lund from the package \bold{circular}.}
+\author{Sandra Barrag√°n based on the code of Claudio Agostinelli and Ulric Lund from the package \bold{circular}.}
 
 \seealso{\code{\link{cond.test}}, \code{\link{CIRE}}, \code{\link{isocir}}.}
 

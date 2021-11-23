@@ -23,7 +23,7 @@ This function performs the conditional test to constrast the hypotheses:
 
 \eqn{\hspace{1.7cm}H_{1}:\hspace{0.1cm}H_{0}}{H1: Ho:} is not true.
 
-This conditional test is a modification of the likelihood ratio test.  See Fern·ndez et al. (2011) for full details about the conditional test.  For a whole explanation of the use of this function, see the vignette of this package where some examples are shown.
+This conditional test is a modification of the likelihood ratio test.  See Fern?ndez et al. (2011) for full details about the conditional test.  For a whole explanation of the use of this function, see the vignette of this package where some examples are shown.
 
 The circular order to be tested is defined in the argument \code{groups} by a numeric vector with the positions in the order of each element. 
 The result of \code{cond.test} is the p-value of this test.  There are two cases depending on whether \eqn{\kappa}{kappa} is known or not.  
@@ -43,8 +43,8 @@ The attribute \code{estkappa} shows if kappa is estimated or known.
 }
 
 
-\author{Author(s): Sandra Barrag·n based on the SAS code written by Miguel A. Fern·ndez.
-Maintainer:<sandraba@eio.uva.es>}
+\author{Author(s): Sandra Barrag√°n based on the SAS code written by Miguel A. Fern√°ndez.
+Maintainer:<sandra.barragan@gmail.com>}
 
 
 \references{
@@ -60,7 +60,7 @@ Rueda, C., Fernandez, M. A. and Peddada, S. D. (2009).
 Fernandez, M. A., Rueda, C. and Peddada, S. D. (2012).
     Identification of a core set of signature cell cycle genes whose relative order of time to peak expression is conserved across
 species, \emph{Nucl. Acids Res.} \bold{40}, n7: pp 2823--2832. doi:10.1093/nar/gkr1077.
-\url{http://nar.oxfordjournals.org/content/early/2011/11/30/nar.gkr1077}
+\url{https://academic.oup.com/nar/article/40/7/2823/1183140}
 
 }
 

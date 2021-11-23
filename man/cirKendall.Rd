@@ -27,7 +27,7 @@ If \code{test=TRUE}, it returns also the pvalue of the test.
 }
 
 
-\author{Author(s):  Sandra Barragán.  Maintainer:  <sandraba@eio.uva.es>
+\author{Author(s):  Sandra BarragÃ¡n.  Maintainer:  <sandra.barragan@gmail.com>
 }
 
 \references{

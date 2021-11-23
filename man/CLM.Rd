@@ -35,7 +35,7 @@ or
 }
 
 
-\author{Author(s):  Sandra Barrag?n.  Maintainer:  <sandraba@eio.uva.es>
+\author{Author(s):  Sandra Barragán.  Maintainer:  <sandra.barragan@gmail.com>
 }
 
 \references{

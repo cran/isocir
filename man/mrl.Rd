@@ -26,7 +26,7 @@ Missing values in the replications are allowed.
 \item{mrl}{numeric vector of dimension \emph{q} with the mean resultant lengths. The \emph{i} element is the mean resultant lenght of the \emph{i} population which is in the row \emph{i} of the matrix \code{data}.}
 }
 
-\author{Author(s):  Sandra Barrag?n.  Maintainer:  <sandraba@eio.uva.es>
+\author{Author(s):  Sandra Barragán.  Maintainer:  <sandra.barragan@gmail.com>
 }
 
 \references{
@@ -42,7 +42,7 @@ Rueda, C., Fernandez, M. A. and Peddada, S. D. (2009).
 Fernandez, M. A., Rueda, C. and Peddada, S. D. (2012).
     Identification of a core set of signature cell cycle genes whose relative order of time to peak expression is conserved across
 species, \emph{Nucl. Acids Res.} \bold{40}, n7: pp 2823--2832. doi:10.1093/nar/gkr1077.
-\url{http://nar.oxfordjournals.org/content/early/2011/11/30/nar.gkr1077}
+\url{https://academic.oup.com/nar/article/40/7/2823/1183140}
 
 }
 

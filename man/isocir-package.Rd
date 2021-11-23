@@ -12,7 +12,7 @@
 
 \tabular{ll}{
 Package: \tab isocir\cr
-Version: \tab 1.9\cr
+Version: \tab 2.0\cr
 Depends: \tab combinat, circular\cr
 License: \tab GPL (>=3)\cr
 }
@@ -30,7 +30,7 @@ License: \tab GPL (>=3)\cr
 %  \code{\link{cirgenes}} \tab a matrix, called experiments.\cr
 %   }
 }
-\author{Author(s):  Sandra Barrag·n mainly based on the SAS code written by Miguel A. Fern·ndez.  Maintainer:  <sandraba@eio.uva.es>
+\author{Author(s):  Sandra Barrag√°n mainly based on the SAS code written by Miguel A. Fern√°ndez.  Maintainer:  <sandra.barragan@gmail.com>
 }
 \references{
 
@@ -39,7 +39,7 @@ Mardia, K. and Jupp, P. (2000).
    \emph{Directional Statistics}, Chichester: Wiley.
    
 Barragan, S.,  Fernandez, M.A., Rueda, C. and Peddada, S.D. (2015).
-isocir: An R Package for Constrained Inference Using Isotonic Regression for Circular Data, with an Application to Cell Biology. \emph{Journal of Statistical Software}, \bold{54}, n1: pp 1--17. doi: 10.18637/jss.v054.i04. \url{https://www.jstatsoft.org/index.php/jss/article/view/v054i04}
+isocir: An R Package for Constrained Inference Using Isotonic Regression for Circular Data, with an Application to Cell Biology. \emph{Journal of Statistical Software}, \bold{54}, n1: pp 1--17. doi: 10.18637/jss.v054.i04.
 
 
 Rueda, C., Fernandez, M. A. and Peddada, S. D. (2009).
@@ -49,7 +49,7 @@ Rueda, C., Fernandez, M. A. and Peddada, S. D. (2009).
 Fernandez, M. A., Rueda, C. and Peddada, S. D. (2012).
     Identification of a core set of signature cell cycle genes whose relative order of time to peak expression is conserved across
 species, \emph{Nucl. Acids Res.} \bold{40}, n7: pp 2823--2832. doi:10.1093/nar/gkr1077.
-\url{http://nar.oxfordjournals.org/content/early/2011/11/30/nar.gkr1077}
+\url{https://academic.oup.com/nar/article/40/7/2823/1183140}
 
 Barragan, S., Rueda, C., Fernandez, M.A. and Peddada, S.D. (2015).
     Determination of Temporal Order among the Components of an Oscillatory System.
