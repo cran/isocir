@@ -1,5 +1,5 @@
 Package: isocir
-Version: 2.0-7
+Version: 2.0-7.1
 Title: Isotonic Inference for Circular Data
 Depends: R(>= 3.0.1), circular(>= 0.4-8), TSP(>= 1.0-7)
 Imports: combinat(>= 0.0-8)
@@ -7,9 +7,9 @@ Author: Sandra Barragan, Miguel A. Fernandez and Cristina Rueda.
 Maintainer: Sandra Barragan <sandra.barragan@gmail.com>
 Description: A bunch of functions to deal with circular data under order restrictions.
 License: GPL (>= 3)
-Encoding: latin1
+Encoding: UTF-8
 LazyLoad: yes
 NeedsCompilation: yes
-Packaged: 2021-11-23 09:54:14 UTC; U850310
+Packaged: 2023-08-17 05:58:23 UTC; hornik
 Repository: CRAN
-Date/Publication: 2021-11-23 10:10:04 UTC
+Date/Publication: 2023-08-17 06:27:15 UTC

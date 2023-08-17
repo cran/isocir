@@ -1,4 +1,4 @@
-849b1ce13ae59383501ae1cac19d3f68 *DESCRIPTION
+3f9013b08c423bb1dca5e0b0797e6665 *DESCRIPTION
 627c54c75659c5f8df8d55c3d327405a *NAMESPACE
 e0710bb7ecdb4f90a974bad99fd506c8 *NEWS
 d0f9b4ad467397726c52f3aac8e7d1cd *R/ACO.R
@@ -15,15 +15,15 @@ e961342367a20c32f138464ba229ce7c *R/cirKendall.R
 c2dc2cfa97aae93538b5152175147b2a *R/sce.R
 f585dddb5ded8d14d61cbca3921b2f4d *R/zzz.R
 7b4697b12a3595f6a64512115839f770 *README
-ef3f9303758ac6e024dcf99f3e649c34 *build/vignette.rds
-4c4cceacaa1d925a28e21dfeb36f8675 *data/cirdata.rda
-13e7acbcc30bf97f23f36c6218684e7a *data/cirgenes.rda
-b17f9d286713d28503c6ce875d093576 *data/datareplic.rda
+a091360e2e3ee7dbd2677e31ec8b7cec *build/vignette.rds
+3e3f29a5c74fd785fb8bee8f264d1690 *data/cirdata.rda
+1901651f8fc43a8bf7ad4b074ee5fc6b *data/cirgenes.rda
+e054a6f55d524f5ca7a620586d1f530e *data/datareplic.rda
 b0ce0f9ddb22a6de9620d5051122792e *inst/CITATION
 0ba96b5329424e21f85778729724e81e *inst/COPYRIGHTS
-260c8b788055245130d220a424d962c5 *inst/doc/isocir.R
+4fe40c9691bf7e09b50e4ee357ce99d6 *inst/doc/isocir.R
 76841eba250117c0d8f4daf76965d5c8 *inst/doc/isocir.Rnw
-b0b1922074a9f1ff66fb5675a25aa8c6 *inst/doc/isocir.pdf
+31c9b73166bae884a070b0d95ea540f6 *inst/doc/isocir.pdf
 ebc50d0c1ca859c67528a2187d48efe4 *man/ACO.Rd
 0bc116ee2c562b9008932078dc820e8e *man/CIRE.Rd
 ab2b7d07f320a32ef8e075b607494548 *man/CLM.Rd
